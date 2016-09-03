@@ -1,0 +1,878 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:controls="com.adobe.flex.extras.controls.*"
+		 xmlns:telefono="com.dulcejosefina.telefono.*"
+		 width="1392" height="522" creationComplete="group1_creationCompleteHandler(event)">
+	<fx:Declarations>
+		<s:RadioButtonGroup id="Persona"/>
+		<s:RadioButtonGroup id="Genero"/>
+		<s:RadioButtonGroup id="TipoDocumento"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:WebService id="serviceEmpleado" wsdl="http://localhost:8080/EJBPersonaBeanService/EJBPersonaBean?WSDL" showBusyCursor="true">
+			<s:operation name="selectAllEmpleadosJefesyCliente" concurrency="multiple" result="operation1_resultHandler(event)"
+						 fault="operation1_faultHandler(event)">
+				
+			</s:operation>
+			<s:operation name="crearPersona" concurrency="last" result="operation2_resultHandler(event)" fault="operation2_faultHandler(event)"
+						 />
+			<s:operation name="verificarDniCuil" result="operation3_resultHandler(event)" fault="operation3_faultHandler(event)" />
+		</s:WebService>
+		<s:XMLListCollection id="listaPersona" source="{xmlListPersona.item}"/>
+		<s:XMLListCollection id="listaTelefonoPersona"/>
+		
+		<mx:StringValidator
+			required="true"
+			id="fNameN"
+			minLength="4"
+			maxLength="50"
+			source="{txtnombre}"
+			property="text">
+			
+		</mx:StringValidator>
+		<mx:StringValidator
+			required="true"
+			id="fLastNameN"
+			minLength="4"
+			maxLength="50"
+			source="{txtApellido}"
+			property="text">
+			
+		</mx:StringValidator>
+		<mx:StringValidator
+			
+			id="fLoginN"
+			minLength="4"
+			maxLength="20"
+			source="{txtlogin}"
+			property="text">
+			
+		</mx:StringValidator>
+		<mx:EmailValidator
+			
+			source="{txtemail}"
+			property="text">
+			
+		</mx:EmailValidator>
+		<mx:StringValidator
+			
+			id="fPass"
+			minLength="4"
+			maxLength="12"
+			source="{txtpasswordEmpleado}"
+			property="text">
+			
+		</mx:StringValidator>
+		<s:RadioButtonGroup id="ClientePreferencial"/>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			private var idPersona:int=0;
+			[Bindable]
+			private var estado:int=1;
+			[Bindable]
+			private var clientePreferencial:int=0;
+			[Bindable]
+			private var totalPuntosClientePreferencial:int=0;
+			[Bindable]
+			private var xmlListPersona:XMLList;
+			[Bindable]
+			private var xmlTelPersona:XMLList;
+			private function transferirFocus(KeyPress:KeyboardEvent):void{
+			if(KeyPress.target.toString().indexOf("txtnombre")!=-1&&txtnombre.text.length==0){
+				
+				//btnGuardar.enabled=false;
+				//btnNuevo.enabled=true;
+			}
+			if(KeyPress.target.toString().indexOf("txtpasswordEmpleado")!=-1&&txtnombre.text.length==0){
+				
+				//btnGuardar.enabled=false;
+				//btnNuevo.enabled=true;
+			}
+			if(KeyPress.target.toString().indexOf("txtlogin")!=-1&&txtnombre.text.length==0){
+				
+				//btnGuardar.enabled=false;
+				//btnNuevo.enabled=true;
+			}
+			if(KeyPress.target.toString().indexOf("txtemail")!=-1&&txtnombre.text.length==0){
+				
+				//btnGuardar.enabled=false;
+				//btnNuevo.enabled=true;
+			}
+			if(KeyPress.target.toString().indexOf("txtcuil")!=-1&&txtnombre.text.length==0){
+				
+				//btnGuardar.enabled=false;
+				//btnNuevo.enabled=true;
+			}
+			if(KeyPress.target.toString().indexOf("txtnumeroDocu")!=-1&&txtnombre.text.length==0){
+				
+				//btnGuardar.enabled=false;
+				//btnNuevo.enabled=true;
+			}
+				
+			
+			
+			if(KeyPress.keyCode==Keyboard.ENTER){
+				
+									if(KeyPress.target.toString().indexOf("txtnombre")!=-1&&txtnombre.text.length>0){
+										
+										txtApellido.setFocus();
+										txtnombre.text.toUpperCase();
+									
+									}
+									if(KeyPress.target.toString().indexOf("txtApellido")!=-1&&txtApellido.text.length>0){
+										txtnumeroDocu.setFocus();
+										txtApellido.text.toUpperCase();
+										
+									}
+									if(KeyPress.target.toString().indexOf("txtnumeroDocu")!=-1){
+										serviceEmpleado.verificarDniCuil(txtnumeroDocu.text);
+										txtcuil.setFocus();		
+										if(rdbCliente.selected==true){
+											btnGuardar.enabled=true;
+										}
+										
+									}
+									if(KeyPress.target.toString().indexOf("txtcuil")!=-1){
+										serviceEmpleado.verificarDniCuil(txtnumeroDocu.text);
+										txtemail.setFocus();		
+										if(rdbCliente.selected==true){
+											btnGuardar.enabled=true;
+										}
+										
+									}
+									if(KeyPress.target.toString().indexOf("txtemail")!=-1){
+										txtlogin.setFocus();
+										
+										
+									}
+									if(KeyPress.target.toString().indexOf("txtlogin")!=-1&&txtlogin.text.length>0){
+										txtpasswordEmpleado.setFocus();
+										
+										
+									}
+									if(KeyPress.target.toString().indexOf("txtpasswordEmpleado")!=-1&&txtpasswordEmpleado.text.length>0){
+										txtDetalleEmpleado.setFocus();
+										if(rdbEmpleado.selected==true||rdbJefe.selected==true){
+											btnGuardar.enabled=true;
+										}
+										
+										
+									}
+									if(KeyPress.target.toString().indexOf("txtDetalleEmpleado")!=-1&&txtDetalleEmpleado.text.length>0){
+										txtDetalleEmpleado.setFocus();
+										
+										
+									}
+				
+			
+			}
+			
+			}
+			
+			protected function btnNuevo_clickHandler(event:MouseEvent):void
+			{
+				limpiarControles();
+				resetBotones();
+				resetControles();
+				componenteTelefono.clearTodo();
+				componenteTelefono.blanqueartodo();
+				btnNuevo.enabled=false;
+				btnGuardar.enabled=false;
+				txtnombre.setFocus();
+			}
+			protected function limpiarControles():void{
+				txtApellido.text="";
+				txtcuil.text="";
+				txtDetalleEmpleado.text="";
+				txtemail.text="";
+				txtlogin.text="";
+				txtnombre.text="";
+				txtnumeroDocu.text="";				
+				txtpasswordEmpleado.text="";				
+				resetBotones();
+				
+				
+			}
+			protected function resetBotones():void{
+				idPersona=0;
+				estado=1;
+				if(btnNuevo.enabled==false){
+					btnNuevo.enabled=true;
+				}
+				if(btnGuardar.enabled==false){
+					btnGuardar.enabled=true;
+				}
+			
+			}
+			protected function resetControles():void{
+				rdbCliente.selected=false;
+				rdbEmpleado.selected=true;
+				rdbJefe.selected=false;
+				rdbDni.selected=true;
+				rdblc.selected=false;
+				rdble.selected=false;
+				rdbpasaporte.selected=false;
+				rdbFemenino.selected=false;
+				rdbMasculino.selected=true;		
+				rdbClientePreferencialNo.selected=true;
+				rdbClientePreferencialSi.selected=false;
+				idPersona=0;
+				estado=1;
+				
+			}
+			private function getDatos():String{				
+				var tipoDocu:String;
+				var tipoPersona:String;				
+				var genero:String;				
+				var empleado:String;
+				
+				
+				if(rdbClientePreferencialSi.selected==true){
+					clientePreferencial=1;
+				}else{
+					if(rdbClientePreferencialNo.selected==true){
+						clientePreferencial=0;
+					}
+				}
+				if(rdbMasculino.selected==true){
+					genero ="MASCULINO";
+				}else{
+					genero ="FEMENINO";
+				}
+				if(rdbDni.selected==true){
+					tipoDocu="DNI";
+				}else{
+					if(rdblc.selected==true){
+						tipoDocu="LC";
+					}else{
+						if(rdble.selected==true){
+							tipoDocu="LE";
+						}else{
+							tipoDocu="PASAPORTE";
+						}
+					}
+				}
+				if(rdbJefe.selected==true){
+					tipoPersona="JEFE";
+				}else{
+					if(rdbCliente.selected==true){
+						tipoPersona="CLIENTE";
+					}else{
+						
+							tipoPersona="EMPLEADO";
+						
+					}
+				}				
+				
+				empleado="<empleado>\n" +
+					"<id>"+idPersona+"</id>\n" +
+					"<nombre>"+txtnombre.text+"</nombre>\n"+
+				"<apellido>"+txtApellido.text+"</apellido>\n";
+				if(txtcuil.text.length==0){
+					empleado+="<cuil>0</cuil>\n";
+				}else
+					empleado+="<cuil>"+txtcuil.text+"</cuil>\n";
+				if(txtDetalleEmpleado.text.length==0){
+					empleado+="<detalle></detalle>\n";
+				}else{
+					empleado+="<detalle>"+txtDetalleEmpleado.text+"</detalle>\n";
+				}		
+				if(txtemail.text.length==0){
+					empleado+="<email></email>\n";
+				}else
+					empleado+="<email>"+txtemail.text+"</email>\n";
+				
+				if(txtlogin.text.length==0)
+					empleado+="<login></login>\n";
+				else
+					empleado+="<login>"+txtlogin.text+"</login>\n";
+				if(txtnumeroDocu.text.length==0){
+					empleado+="<dni>0</dni>\n";
+				}else
+					empleado+="<dni>"+txtnumeroDocu.text+"</dni>\n";
+				
+				if(txtpasswordEmpleado.text.length==0)
+					empleado+="<password></password>\n";
+				else
+					empleado+="<password>"+txtpasswordEmpleado.text+"</password>\n";
+						
+				empleado+="<fechaCarga></fechaCarga>\n"
+					+"<estado>"+estado+"</estado>\n"
+					+"<tipoPersona>"+tipoPersona+"</tipoPersona>\n"
+					+"<genero>"+genero+"</genero>\n"
+					+"<puntosClientePrefencial>"+totalPuntosClientePreferencial+"</puntosClientePrefencial>\n"
+					+"<clientePerefencial>"+clientePreferencial+"</clientePerefencial>\n"
+					+"<tipoDocumento>"+tipoDocu+"</tipoDocumento>\n";
+				if(componenteTelefono.listtel.length>0){
+					empleado+=componenteTelefono.getDatosTelefonos()+"</empleado>";
+				}else{
+					empleado+="</empleado>";
+				}
+				
+			return empleado;
+			}
+			protected function guardarOperacion():void{
+				if(rdbCliente.selected==false){	
+					if(campoRequerido()){
+						Alert.show("Campo Requerido");
+					}else{
+						
+						btnGuardar.enabled=false;	
+						
+						serviceEmpleado.crearPersona(getDatos());
+					}
+				}else{
+					if(txtnumeroDocu.text.length>0||txtcuil.text.length>0){
+						btnGuardar.enabled=false;
+						
+						serviceEmpleado.crearPersona(getDatos());
+					}else{
+						Alert.show("DEBE INGRESAR UN NUMERO DE DOCUMENTO O CUIL PARA EL CLIENTE COMO MÍNIMO\n PARA PODER ALMACENARLO!!!");
+					}
+				}
+			
+			}
+			protected function btnGuardar_clickHandler(event:MouseEvent):void
+			{
+				
+				
+				if(estado==0){
+					Alert.show("LA PERSONA SERÁ DESHABILITADA?","Confirmar Operación",Alert.YES|Alert.NO,this,guardarOperacion,null,Alert.NO);
+					
+				
+				}else{
+				//	guardarOperacion();
+					
+						guardarOperacion();
+					
+				}
+				//guardarOperacion();
+				
+						
+			}
+			protected function verificarDNICUIL():Boolean{
+				var retorno:Boolean;
+				if(txtnumeroDocu.text.length>0){
+					retorno= serviceEmpleado.verificarDniCuil(txtnumeroDocu.text);
+				}else{
+					if(txtcuil.text.length>0){
+						retorno= serviceEmpleado.verificarDniCuil(txtcuil.text);
+					}
+				}
+			return retorno;
+			}
+			protected function campoRequerido():Boolean{
+				if(txtnombre.text.length==0||txtApellido.text.length==0||txtlogin.text.length==0||txtpasswordEmpleado.text.length==0){
+					return true;	
+				}else{
+				return false;
+				}
+			
+			}
+			
+			protected function operation1_resultHandler(event:ResultEvent):void
+			{				
+				
+				xmlListPersona = new XMLList(event.result);
+				
+				
+				listaPersona.filterFunction=null;
+				listaPersona.refresh();
+				
+				addInfo();
+				
+			}
+			protected function addInfo():void{
+				adgEmpleados.dataProvider=listaPersona;	
+				addInfoPersona();
+			}
+			protected function operation1_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("FALLO!!!");
+				resetControles();
+				
+			}
+			
+			
+			
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				
+				serviceEmpleado.selectAllEmpleadosJefesyCliente();
+				txtApellido.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtcuil.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtDetalleEmpleado.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtemail.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtlogin.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtnombre.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtnumeroDocu.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtpasswordEmpleado.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+			}
+			
+			protected function operation2_resultHandler(event:ResultEvent):void
+			{
+				var resultado:int=(event.result.toString());
+				switch(resultado)
+				{
+					case -1:
+						
+					{
+					Alert.show("FALTAN CAMPOS REQUERIDOS!!!");	
+					resetBotones();
+						break;
+					}
+					case -4:
+						
+					{
+						Alert.show("CAMPOS REQUERIDOS NO VÁLIDOS!!!");
+						resetBotones();
+						break;
+					}
+					case -5:
+						
+					{
+						Alert.show("NO SE PUDO VALIDAR DNI,CUIL O EMAIL!!!");
+						resetBotones();
+						break;
+					}
+					case -4:
+						
+					{
+						Alert.show("FALLO EL EMAIL!!!");
+						resetBotones();
+						break;
+					}
+					case -5:
+						
+					{
+						Alert.show("FALLO EL LOGIN!!!");
+						resetBotones();
+						break;
+					}
+					case -6:
+						
+					{
+						Alert.show("YA EXISTE EL LOGIN INGRESADO!!!");
+						resetBotones();
+						break;
+					}
+					case -7:
+						
+					{
+						Alert.show("YA EXISTE EL DNI O CUIL INGRESADO!!!");	
+						resetBotones();
+						break;
+					}
+					case -3:
+						
+					{
+						Alert.show("PERSONA NO ENCONTRADA!!!");	
+						break;
+					}
+						
+					default:
+					{
+						
+						limpiarControles();
+						resetControles();
+						resetBotones();
+						componenteTelefono.clearTodo();
+						serviceEmpleado.selectAllEmpleadosJefesyCliente();
+					}
+				}
+				
+			}
+			
+			protected function operation2_faultHandler(event:FaultEvent):void
+			{
+					
+			Alert.show("FALLO!!!");
+				resetBotones();
+			}
+			
+			protected function adgEmpleados_clickHandler(event:MouseEvent):void
+			{
+				limpiarControles();
+				addInfoPersona();
+			}
+			protected function addInfoPersona():void{
+				
+				estado =listaPersona[adgEmpleados.selectedIndex].estado;
+				clientePreferencial=listaPersona[adgEmpleados.selectedIndex].clientePreferencial;
+				totalPuntosClientePreferencial=listaPersona[adgEmpleados.selectedIndex].puntosClientePreferencial;
+				idPersona=listaPersona[adgEmpleados.selectedIndex].id;
+				txtnombre.text =listaPersona[adgEmpleados.selectedIndex].nombre;
+				txtApellido.text=listaPersona[adgEmpleados.selectedIndex].apellido;
+				listaTelefonoPersona.source=listaPersona[adgEmpleados.selectedIndex].personaTelefono.itemTelefono;
+				
+				
+				
+				if(clientePreferencial==1){
+					rdbClientePreferencialSi.selected=true;
+					rdbClientePreferencialNo.selected=false;
+				}else{
+					rdbClientePreferencialSi.selected=false;
+					rdbClientePreferencialNo.selected=true;
+				}
+				
+				if(String(listaPersona[adgEmpleados.selectedIndex].detalle)!="null"){
+					txtDetalleEmpleado.text = listaPersona[adgEmpleados.selectedIndex].detalle;
+				}
+				
+				if(String(listaPersona[adgEmpleados.selectedIndex].email)!="null"){
+					txtemail.text = listaPersona[adgEmpleados.selectedIndex].email;
+				}
+				if(String(listaPersona[adgEmpleados.selectedIndex].login)!="null"){
+					txtlogin.text = listaPersona[adgEmpleados.selectedIndex].login;
+				}
+				if(int(listaPersona[adgEmpleados.selectedIndex].cuil)!=0){
+					txtcuil.text = listaPersona[adgEmpleados.selectedIndex].cuil;
+				}
+				
+				if(int(listaPersona[adgEmpleados.selectedIndex].numeroDocumento)!=0){
+					txtnumeroDocu.text = listaPersona[adgEmpleados.selectedIndex].numeroDocumento;
+				}
+				if(String(listaPersona[adgEmpleados.selectedIndex].password)!="null"){
+					txtpasswordEmpleado.text = listaPersona[adgEmpleados.selectedIndex].password;
+				}
+				
+				
+				switch(String(listaPersona[adgEmpleados.selectedIndex].genero))
+				{
+					case "FEMENINO":
+					{
+						rdbFemenino.selected=true;
+						rdbMasculino.selected=false;
+						break;
+					}
+						
+					case "MASCULINO":{
+						rdbFemenino.selected=false;
+						rdbMasculino.selected=true;
+						break;
+					}
+				}
+				switch(String(listaPersona[adgEmpleados.selectedIndex].tipoPersona))
+				{
+					case "JEFE":
+					{
+						rdbCliente.selected=false;
+						rdbEmpleado.selected=false;
+						rdbJefe.selected=true;
+						break;
+					}
+						
+					case "EMPLEADO":
+					{
+						rdbCliente.selected=false;
+						rdbEmpleado.selected=true;
+						rdbJefe.selected=false;
+						
+						break;
+					}
+					case "CLIENTE":
+					{
+						rdbCliente.selected=true;
+						rdbEmpleado.selected=false;
+						rdbJefe.selected=false;
+						break;
+					}	
+				}
+				switch(String(listaPersona[adgEmpleados.selectedIndex].tipoDocu))
+				{
+					case "DNI":
+					{
+						rdbDni.selected=true;
+						rdbpasaporte.selected=false;
+						rdblc.selected=false;
+						rdble.selected=false;
+						
+						break;
+					}
+					case "LC":
+					{
+						rdbDni.selected=false;
+						rdbpasaporte.selected=false;
+						rdblc.selected=true;
+						rdble.selected=false;
+						break;
+					}
+					case "LE":
+					{
+						rdbDni.selected=false;
+						rdbpasaporte.selected=false;
+						rdblc.selected=false;
+						rdble.selected=true;
+						break;
+					}
+					case "PASAPORTE":
+					{
+						rdbDni.selected=false;
+						rdbpasaporte.selected=true;
+						rdblc.selected=false;
+						rdble.selected=false;
+						break;
+					}
+				}
+				addInfoTelefono();
+				
+			
+			}
+			protected function addInfoTelefono():void{
+				var tamanoArrayTelefono:int;
+				//*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+				componenteTelefono.clearTodo();
+				
+				if(listaTelefonoPersona.length>0){							
+					tamanoArrayTelefono=componenteTelefono.arrayTel.length;
+					for(var j:int=0;j<tamanoArrayTelefono;j++)
+						componenteTelefono.arrayTel.pop();					
+					for(var i:int=0;i<listaTelefonoPersona.length;i++){
+						componenteTelefono.arrayTel.push({id:listaTelefonoPersona[i].id,idPersonaTelefono:listaTelefonoPersona[i].idPersonaTelefono,prefijo:listaTelefonoPersona[i].prefijo,numero:listaTelefonoPersona[i].numero});								
+					}
+					componenteTelefono.listtel.source=componenteTelefono.arrayTel;
+					componenteTelefono.listtel.refresh();
+				}
+				//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+			
+			}
+			
+			
+			protected function cargarDataGrid():void{
+				if(rdbCliente0.selected==true){	
+					
+					listaPersona.filterFunction=stateFilterFuncCliente;
+					limpiarControles();
+					listaPersona.refresh();
+				}
+				if(rdbEmpleado0.selected==true){
+					listaPersona.filterFunction=stateFilterFuncEmpleado;
+					limpiarControles();
+					listaPersona.refresh();
+				}
+				if(rdbJefe0.selected==true){
+					listaPersona.filterFunction=stateFilterFuncJefe;
+					limpiarControles();
+					listaPersona.refresh();
+				}
+			}
+			public function stateFilterFuncCliente(item:Object):Boolean { 
+				return item.tipoPersona == "CLIENTE"; 
+			}
+			public function stateFilterFuncEmpleado(item:Object):Boolean{
+				return item.tipoPersona == "EMPLEADO";
+			}
+			public function stateFilterFuncJefe(item:Object):Boolean{
+				return item.tipoPersona == "JEFE";
+			}
+			
+			protected function btnRefrescar_clickHandler(event:MouseEvent):void
+			{
+				listaPersona.filterFunction=null;
+				listaPersona.refresh();
+			}
+			
+			
+			
+			
+			protected function rdbJefe0_clickHandler(event:MouseEvent):void
+			{
+				cargarDataGrid();
+				
+			}
+			
+			protected function rdbCliente0_clickHandler(event:MouseEvent):void
+			{
+				cargarDataGrid();
+			}
+			
+			protected function rdbEmpleado0_clickHandler(event:MouseEvent):void
+			{
+				cargarDataGrid();
+			}
+			
+			protected function btnCancelar_clickHandler(event:MouseEvent):void
+			{
+				resetControles();
+				resetBotones();
+				resetRadioButtonClientePreferencial();
+				adgEmpleados.selectedIndex=0;
+				addInfoPersona();				
+				
+				
+			}
+			
+			protected function rdbJefe_clickHandler(event:MouseEvent):void
+			{
+				resetRadioButtonClientePreferencial();
+				if(btnGuardar.enabled==false&&(txtcuil.text.length>0||txtnumeroDocu.text.length>0)){
+					btnGuardar.enabled=true;
+				}
+				
+			}
+			protected function resetRadioButtonClientePreferencial():void{
+				if(rdbClientePreferencialSi.selected==true){
+					rdbClientePreferencialNo.selected=true;
+					rdbClientePreferencialSi.selected=false;
+				}	
+			
+			}
+			
+			protected function rdbEmpleado_clickHandler(event:MouseEvent):void
+			{
+				resetRadioButtonClientePreferencial();
+				if(btnGuardar.enabled==false&&(txtcuil.text.length>0||txtnumeroDocu.text.length>0)){
+					btnGuardar.enabled=true;
+				}
+			}
+			
+			protected function rdbCliente_clickHandler(event:MouseEvent):void
+			{
+				if(btnGuardar.enabled==false&&(txtcuil.text.length>0||txtnumeroDocu.text.length>0)){
+					btnGuardar.enabled=true;
+				}
+			}
+			
+			protected function operation3_resultHandler(event:ResultEvent):void
+			{
+				var value:Boolean=event.result;
+				if(value){
+					Alert.show("El Numero de Documento o Cuil ya se encuentra almacenado en la base de datos!");
+				}
+				
+			}
+			
+			protected function operation3_faultHandler(event:FaultEvent):void
+			{
+			Alert.show("FALLO AL BUSCAR DNI O CUIL!");
+				
+			}
+			
+		]]>
+	</fx:Script>
+		
+	
+	<s:Label x="130" y="33" fontFamily="Verdana" fontSize="16" text="Nombre:"/>
+	<s:Label x="130" y="64" fontFamily="Verdana" fontSize="16" text="Apellido:"/>
+	<s:Label x="29" y="92" fontFamily="Verdana" fontSize="16" text="Numero Documento:"/>
+	<s:Label x="124" y="121" fontFamily="Verdana" fontSize="16" text="Cuit/Cuil:"/>
+	<s:Label x="143" y="150" fontFamily="Verdana" fontSize="16" text="Email:"/>
+	<s:Label x="28" y="183" fontFamily="Verdana" fontSize="16" text="Nombre de Usuario:"/>
+	<s:Label x="112" y="212" fontFamily="Verdana" fontSize="16" text="Password:"/>
+	<s:Label x="130" y="240" fontFamily="Verdana" fontSize="16" text="Detalle:"/>
+	<s:TextArea id="txtDetalleEmpleado" x="209" y="242" width="335" height="150" maxChars="255" tabIndex="8"/>
+	<s:TextInput id="txtpasswordEmpleado" x="209" y="210" width="232" displayAsPassword="true" maxChars="12" tabIndex="7"/>
+	<s:TextInput id="txtlogin" x="210" y="181" width="231" maxChars="20"  tabIndex="6"/>
+	<s:TextInput id="txtemail" x="210" y="150" width="231" maxChars="100" tabIndex="5"/>
+	<s:TextInput id="txtcuil" x="210" y="120" width="231" restrict="0-9" maxChars="11" tabIndex="4"/>
+	<s:TextInput id="txtnumeroDocu" x="211" y="91" width="230" restrict="0-9" maxChars="8" tabIndex="3"/>
+	<s:TextInput id="txtApellido" x="212" y="62" width="229"  restrict="a-z A-Z ñÑ" tabIndex="2"/>
+	<s:TextInput id="txtnombre" x="212" maxChars="50" y="34" width="229" restrict="a-z A-Z ñÑ" tabIndex="1"/>
+	<s:Button id="btnGuardar" x="260" y="449" height="33" label="Guardar"
+			  click="btnGuardar_clickHandler(event)" fontFamily="Verdana" fontSize="16" toolTip="Guardar los datos previamente ingresados en la base de datos"
+			  tabIndex="10"/>
+	<mx:VRule x="679" y="-1" width="0" height="523"/>
+	<s:Button id="btnNuevo" x="167" y="449" height="33" label="Nuevo" toolTip="Cargar Nueva Persona a la Base de Datos"
+			  click="btnNuevo_clickHandler(event)" fontFamily="Verdana" fontSize="16" tabIndex="9"/>
+	<s:Label x="895" y="50" color="#F64F05" fontFamily="Verdana" fontSize="16"
+			 text="LISTADO DE EMPLEADOS DULCE JOSEFINA"/>
+	<s:Label x="447" y="42" color="#F79700" fontFamily="Verdana" fontSize="16" text="*"/>
+	<s:Label x="461" y="41" width="20" color="#F79700" fontFamily="Verdana" fontSize="16" text="**"/>
+	<s:Label x="461" y="69" width="20" color="#F79700" fontFamily="Verdana" fontSize="16" text="**"/>
+	<s:Label x="461" y="94" width="20" color="#F79700" fontFamily="Verdana" fontSize="16" text="**"/>
+	<s:Label x="10" y="400" width="484" height="20" color="#F79700" fontFamily="Verdana"
+			 fontSize="16" text="(**) Campo requeridos para CLIENTE PREFERENCIAL"/>
+	<s:Label x="447" y="69" color="#F79700" fontFamily="Verdana" fontSize="16" text="*"/>
+	<s:Label x="447" y="185" color="#F79700" fontFamily="Verdana" fontSize="16" text="*"/>
+	<s:Label x="447" y="214" color="#F79700" fontFamily="Verdana" fontSize="16" text="*"/>
+	<s:Label x="12" y="426" width="350" color="#F78E06" fontSize="16" text="(*) Campos requeridos para JEFE y EMPLEADO"/>
+	<s:VGroup id="rdgPersona" x="553" y="15" fontSize="16">
+		<s:RadioButton id="rdbJefe" label="JEFE" click="rdbJefe_clickHandler(event)"
+					   groupName="Persona" selected="false"/>
+		<s:RadioButton id="rdbEmpleado" label="EMPLEADO" click="rdbEmpleado_clickHandler(event)"
+					   groupName="Persona" selected="true"/>
+		<s:RadioButton id="rdbCliente" label="CLIENTE" click="rdbCliente_clickHandler(event)"
+					   groupName="Persona" selected="false"/>
+	</s:VGroup>
+	<s:VGroup id="rdgGenero" x="552" y="101" fontSize="16">
+		<s:RadioButton id="rdbFemenino" label="FEMENINO" groupName="Genero" selected="false"/>
+		<s:RadioButton id="rdbMasculino" label="MASCULINO" groupName="Genero" selected="true"/>
+	</s:VGroup>
+	<s:VGroup id="rdgTipoDocu" x="551" y="159" fontSize="16">
+		<s:RadioButton id="rdbDni" label="DNI" groupName="TipoDocumento" selected="true"/>
+		<s:RadioButton id="rdble" label="LE" groupName="TipoDocumento" selected="false"/>
+		<s:RadioButton id="rdblc" label="LC" groupName="TipoDocumento" selected="false"/>
+		<s:RadioButton id="rdbpasaporte" label="PASAPORTE" groupName="TipoDocumento" selected="false"/>
+	</s:VGroup>
+	
+	
+	<s:DataGrid x="859" y="67" width="409" alternatingRowColors="[#FA8258,#01DF74]" selectedIndex="0"  requestedRowCount="4" id="adgEmpleados" click="adgEmpleados_clickHandler(event)"
+				>
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="id" headerText="id" visible="false"></s:GridColumn>
+				<s:GridColumn dataField="nombre" headerText="Nombre"></s:GridColumn>
+				<s:GridColumn dataField="apellido" headerText="Apellido"></s:GridColumn>
+				<s:GridColumn dataField="genero" headerText="Genero" visible="false"></s:GridColumn>
+				<s:GridColumn dataField="numeroDocumento" headerText="Documento" visible="false"></s:GridColumn>
+				<s:GridColumn dataField="cuil" headerText="Cuil" visible="false"></s:GridColumn>
+				<s:GridColumn dataField="email" headerText="Email" visible="false"></s:GridColumn>
+				<s:GridColumn dataField="fechaCarga" headerText="Fecha Carga" ></s:GridColumn>
+				<s:GridColumn dataField="tipoDocu" headerText="Tipo Documento" visible="false"></s:GridColumn>
+				<s:GridColumn dataField="tipoPersona" headerText="Tipo Persona" visible="false"></s:GridColumn>
+				<s:GridColumn dataField="clientePreferencial" headerText="Cliente Preferencial" visible="false"></s:GridColumn>
+				<s:GridColumn dataField="puntosClientePreferencial" headerText="Puntos Cliente Preferencial" visible="false"></s:GridColumn>
+				
+				<s:GridColumn dataField="estado" headerText="Estado" rendererIsEditable="true">
+					<s:itemRenderer>
+						<fx:Component>
+							<s:GridItemRenderer>
+								<mx:CheckBox horizontalCenter="0" click="data.estado=!data.estado" verticalCenter="0" width="90%" selected="{data.estado}"/>
+							</s:GridItemRenderer>
+						</fx:Component>
+					</s:itemRenderer>
+				</s:GridColumn>
+			</s:ArrayList>
+		</s:columns>
+		<s:typicalItem>
+			<fx:Object dataField1="Sample Data" dataField2="Sample Data" dataField3="Sample Data"></fx:Object>
+		</s:typicalItem>
+		<s:ArrayList>
+			<fx:Object dataField1="data1" dataField2="data1" dataField3="data1"></fx:Object>
+			<fx:Object dataField1="data2" dataField2="data2" dataField3="data2"></fx:Object>
+			<fx:Object dataField1="data3" dataField2="data3" dataField3="data3"></fx:Object>
+			<fx:Object dataField1="data4" dataField2="data4" dataField3="data4"></fx:Object>
+		</s:ArrayList>
+	</s:DataGrid>
+	<mx:HRule x="559" y="95"/>
+	<mx:HRule x="556" y="154"/>
+	<s:Button id="btnRefrescar" x="1091" y="10" label="Recargar Listado Completo"
+			  click="btnRefrescar_clickHandler(event)"/>
+	<s:VGroup id="rdgPersona0" x="1272" y="4" fontSize="16">
+		<s:RadioButton id="rdbJefe0" label="JEFE" click="rdbJefe0_clickHandler(event)"
+					   groupName="rdgPersona0" selected="false"/>
+		<s:RadioButton id="rdbEmpleado0" label="EMPLEADO" click="rdbEmpleado0_clickHandler(event)"
+					   groupName="rdgPersona0" selected="true"/>
+		<s:RadioButton id="rdbCliente0" label="CLIENTE" click="rdbCliente0_clickHandler(event)"
+					   groupName="rdgPersona0" selected="false"/>
+	</s:VGroup>
+	<telefono:Telefono id="componenteTelefono" x="727" y="200" height="269">
+	</telefono:Telefono>
+	<mx:VRule x="679" y="0" height="512"/>
+	<s:VGroup x="687" y="36" width="46" height="44">
+		<s:RadioButton id="rdbClientePreferencialSi" label="Si" groupName="ClientePreferencial"/>
+		<s:RadioButton id="rdbClientePreferencialNo" label="No" groupName="ClientePreferencial"/>
+	</s:VGroup>
+	<s:Label x="685" y="20" color="#F69E04" text="CLIENTE PREFERENCIAL"/>
+	<s:Button id="btnCancelar" x="363" y="449" height="33" label="Cancelar"
+			  click="btnCancelar_clickHandler(event)" fontFamily="Verdana" fontSize="16"/>
+	
+</s:Group>

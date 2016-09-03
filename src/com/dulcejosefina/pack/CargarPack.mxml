@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="300">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			protected function btnGuardar_clickHandler(event:MouseEvent):void
+			{
+				if(txtPackDescripcion.text.length>0){
+					wsPackProducto.crearPack(txtPackDescripcion.text);
+				}
+			}
+			
+			protected function operation1_resultHandler(event:ResultEvent):void
+			{
+				if(int(event.result.toString())>0){
+					Alert.show("Creado!!!");
+						
+				}
+				
+			}
+			
+			protected function operation1_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("FALLO OPERACION DE CREAR PACK!");
+			}
+			
+			protected function operation2_resultHandler(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			protected function operation2_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("FALLO OPERACION BUSCAR TODOS LOS PACK!");
+				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:WebService wsdl="http://localhost:8080/EJBPackProductoService/EJBPackProducto?WSDL" id="wsPackProducto" showBusyCursor="true">
+			<s:operation name="crearPack" result="operation1_resultHandler(event)" fault="operation1_faultHandler(event)">
+				
+			</s:operation>
+			<s:operation name="selectAllPackProducto" result="operation2_resultHandler(event)" fault="operation2_faultHandler(event)">
+				
+			</s:operation>
+			
+		</s:WebService>
+		<mx:StringValidator
+			source="{txtPackDescripcion}"
+			minLength="4"
+			required="true"
+			maxLength="50"
+			property="text"
+			requiredFieldError="Debe ingresar la denominación del pack">
+			
+		</mx:StringValidator>
+	</fx:Declarations>
+	<s:Label x="108" y="23" color="#F69305" text="CARGAR PACK DE PRODUCTO"/>
+	<s:Label x="39" y="72" text="Descripcion:"/>
+	<s:TextInput id="txtPackDescripcion" x="117" y="62" width="251" restrict="A-Z a-z ñÑ 0-9" maxChars="50"/>
+	<s:Button id="btnGuardar" x="165" y="174" label="Guardar" click="btnGuardar_clickHandler(event)"/>
+</s:Group>

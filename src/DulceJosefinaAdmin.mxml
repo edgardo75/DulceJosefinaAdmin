@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   width="1604" height="884" minWidth="955" minHeight="600">
+	<fx:Script>
+		<![CDATA[
+			import com.dulcejosefina.pack.CargarPack;
+			import com.dulcejosefina.persona.CargarDatosPersonalesJefeEmpleadoCliente;
+			import com.dulcejosefina.producto.CargarDatosProducto;
+			import com.dulcejosefina.proveedor.CargarProveedor;
+			import com.dulcejosefina.sucursal.CargarSucursal;
+			
+			import mx.controls.Alert;
+			import mx.events.MenuEvent;
+			
+			protected function menuBar_itemClickHandler(event:MenuEvent):void
+			{
+				
+				if(event.item.@label=="Datos del Empleado"){
+					panelPrincipal.removeAllElements();
+					panelPrincipal.addChild(new CargarDatosPersonalesJefeEmpleadoCliente());
+					
+				}
+				if(event.item.@label=="Cargar Productos y Editar"){
+					panelPrincipal.removeAllElements();
+					panelPrincipal.addChild(new CargarDatosProducto());
+				}
+				if(event.item.@label=="Cargar Sucursal"){
+					panelPrincipal.removeAllElements();
+					panelPrincipal.addChild(new CargarSucursal());
+				}
+				if(event.item.@label=="Cargar Pack"){
+					panelPrincipal.removeAllElements();
+					panelPrincipal.addChild(new CargarPack());
+				}
+				if(event.item.@label=="Cargar Proveedor"){
+					panelPrincipal.removeAllElements();
+					panelPrincipal.addChild(new CargarProveedor());
+				}
+				if(event.item.@label=="Cargar Entradas y Salidas"){
+					panelPrincipal.removeAllElements();
+					
+				}
+				if(event.item.@label=="Productos pronto a Vencer"){
+					panelPrincipal.removeAllElements();
+					
+				}
+				
+				if(event.item.@label =="Acerca de...."){
+					Alert.show("        Dulce Josefina © 2016  \n Todos los derechos reservados ");						
+				}
+				if(event.item.@label =="Contacto..."){
+					Alert.show("      Edgardo Damián Alvarez  \n               Programador \n Móvil: 2644562700 \n Email: edgardo75@gmail.com \n Twitter: @edaprog");						
+				}
+				
+				
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:MenuBar id="menuBar" x="9" y="8" width="1585" fontFamily="Verdana" fontSize="16"
+				fontWeight="bold" itemClick="menuBar_itemClickHandler(event)" labelField="@label">
+		<fx:XMLList xmlns="">
+			<menuItem label="Persona">
+				<menuitem type="separator"/>
+				<menuitem label="Datos del Empleado"/>
+				<menuitem type="separator"/>
+				
+			</menuItem>	
+			<menuItem label="Proveedor">
+				<menuitem type="separator"/>
+				<menuitem label="Cargar Proveedor"/>
+				<menuitem type="separator"/>
+				
+			</menuItem>	
+			<menuItem label="Sucursal">
+				<menuitem type="separator"/>
+				<menuitem label="Cargar Sucursal"/>
+				<menuitem type="separator"/>
+				
+			</menuItem>
+			<menuItem label="Pack">
+				<menuitem type="separator"/>
+				<menuitem label="Cargar Pack"/>
+				<menuitem type="separator"/>
+				
+			</menuItem>
+			<menuitem label="Productos">
+				<menuitem type="separator"/>
+				<menuitem label="Cargar Productos y Editar"/>
+				<menuitem type="separator"/>			
+			</menuitem>
+			<menuitem label="Caja">
+				<menuitem type="separator"/>
+				<menuitem label="Cargar Entradas y Salidas"/>
+				<menuitem type="separator"/>					
+			</menuitem>
+			<menuitem label="Ventas">
+				<menuitem type="separator"/>
+				<menuitem label="Formulario Venta"/>				
+				<menuitem type="separator"/>
+				<menuitem label="Ver Ventas"/>
+				<menuitem type="separator"/>				
+			</menuitem>
+			<menuitem label="Informes">
+				<menuitem type="separator"/>
+				<menuitem label="Productos pronto a Vencer"/>
+				<menuitem type="separator"/>
+			</menuitem>
+			<menuitem label="Extras">
+				<menuitem type="separator"/>
+				<menuitem label="Acerca de...."/>
+				<menuitem type="separator"/>
+				<menuitem label="Contacto..."/>
+				<menuitem type="separator"/>				
+			</menuitem>
+		</fx:XMLList>
+		
+	
+	</mx:MenuBar>
+	<mx:Panel id="panelPrincipal" width="1585" height="794" horizontalCenter="-1" layout="absolute"
+			  verticalCenter="-14">
+		<s:Image x="472" y="63" source="assets/dulceJosefina.jpg"/>
+			
+	</mx:Panel>
+		
+			 
+	
+	
+</s:Application>

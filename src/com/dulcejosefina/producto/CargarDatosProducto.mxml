@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:controls="com.adobe.flex.extras.controls.*"
+		 xmlns:components="com.hillelcoren.components.*"
+		 width="1298" height="720" creationComplete="group1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import flash.sampler.NewObjectSample;
+			
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			private var xmlUsuario:XMLList;
+			[Bindable]
+			private var proveedor:XMLList;
+			[Bindable]
+			private var sucursal:XMLList;
+			[Bindable]
+			private var productosList:XMLList;
+			[Bindable]
+			private var packList:XMLList;
+			[Bindable]
+			private var idProducto:int=0;
+			[Bindable]
+			private var idSucursal:int=0;
+			[Bindable]
+			private var idProveedor:int=0;
+			[Bindable]
+			private var idPack:int=0;
+			[Bindable]
+			private var porcentajeCompra:Number=0;
+			[Bindable]
+			private var porcentajeVenta:Number=0;
+			
+			
+			
+			protected function operation1_resultHandler(event:ResultEvent):void
+			{
+				proveedor = new XMLList(event.result);
+				cmbProveedor.dataProvider=listaProveedor;
+				
+			}
+			
+			protected function operation1_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("FALLO BUSCAR PROVEEDORES!!!");
+				
+			}
+			
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				wsproveedor.selectAllProveedor();
+				wsPackProducto.selectAllPackProducto();
+				wsSucursal.buscarTodasLasSucursales();
+				wsProducto.selectAllProducto();
+				wsUsuario.selectAllJefes();
+				controlesCombos();
+				txtCantidadIngresada.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtCantidadInicial.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtCantidadPack1Compra.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtCantidadPack2Compra.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtCantidadPack3Compra.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtCantidadPrecioUnitarioCompra.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtCantidadPrecioUnitarioVenta.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtCantidadTotal.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtCantidadVentaPack2.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtCantidadVentaPack3.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtCantidadVentaPack1.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtCodigoBarra.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtDetalleProducto.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtDetallesCompra.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtDetalleVenta.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtNombreProducto.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtPrecioCompraPack2.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtPrecioCompraPack3.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtPrecioPack1Compra.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtPrecioUnitarioCompra.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtPrecioUnitarioVenta.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtPrecioVentaPack1.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtPrecioVentaPack2.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtPrecioVentaPack3.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtSearchProducto.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				mskPorcentajeCompra.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				mskPorcentajeVenta.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				
+			}
+			protected function controlesCombos():void{
+				cmbProveedor.selectedItemId=1;
+				cmbSucusal.selectedItemId=1;
+				
+			}
+			protected function operation2_resultHandler(event:ResultEvent):void
+			{
+				sucursal = new XMLList(event.result);
+				cmbSucusal.dataProvider=listaSucursal;
+				
+			}
+			
+			protected function operation2_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("fallo al buscar sucursal");
+				
+			}
+			private function getDatosProducto():String{
+				var producto:String="<producto>\n" +
+					"<id>"+idProducto+"</id>"+
+					"<descripcion></descripcion>"+
+					"<precioUnitarioCompra></precioUnitarioCompra>"+
+					"<precioUnitarioVenta></precioUnitarioVenta>"+
+					"<codigoBarra></codigoBarra>"+
+					"<primerCantidadInicial></primerCantidadInicial>"+
+					"<cantidadIngresada></cantidadIngresada>"+
+					"<cantidadTotalActual></cantidadTotalActual>"+
+					"<fechaIngresoInicial></fechaIngresoInicial>"+
+					"<fechaVencimiento></fechaVencimiento>"+
+					"<fechaCantidadIngresada></fechaCantidadIngresada>"+
+					"<fechaUltimaCompra></fechaUltimaCompra>"+
+					"<fechaUltimaVenta></fechaUltimaVenta>"+
+					"<fechaUltimaActualizacion></fechaUltimaActualizacion>" +
+					"<porcentajeCompra></porcentajeCompra>"+
+					"<porcentajeVenta></porcentajeVenta>"+
+					"<detalle></detalle>" +
+					"<sucursal>"+
+					"<id></id>"+
+					"<nombre></nombre>"+
+					"<descripcion></descripcion>"+
+					"<fechaUltimaCompra></fechaUltimaCompra>"+
+					"<fechaUltimaVenta></fechaUltimaVenta>" +
+					"</sucursal>" +
+					"<proveedor>"+
+					"<id></id>"+
+					"<nombre></nombre>"+
+					"<detalle></detalle>" +
+					"</proveedor>"+
+					"<packProducto>"+
+					"<id></id>"+
+					"<descripcion></descripcion>"+
+					"</packProducto></producto>";
+				return producto;
+			}
+			
+			protected function operation3_resultHandler(event:ResultEvent):void
+			{
+				productosList = new XMLList(event.result);
+				adgProducto.dataProvider =listaProductos;
+				cargarDatosProducto();
+				
+			}
+			
+			protected function operation3_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("FALLÓ LA CARGA DE PRODUCTOS!");
+				
+			}
+			protected function limpiarControles():void{
+				controlesCombos();
+				txtCantidadIngresada.text="0";
+				txtCantidadInicial.text="0";
+				txtCantidadTotal.text="0";
+				txtCantidadPack1Compra.text="0";
+				txtCantidadPack2Compra.text="0";
+				txtCantidadPack3Compra.text="0";
+				txtCantidadPrecioUnitarioCompra.text="0";
+				txtCantidadPrecioUnitarioVenta.text="0";
+				txtCantidadVentaPack2.text="0";
+				txtCantidadVentaPack1.text="0";
+				txtCantidadVentaPack3.text="0";
+				txtPrecioUnitarioCompra.text="0";
+				txtPrecioUnitarioVenta.text="0";
+				txtPrecioVentaPack1.text="0";
+				txtPrecioVentaPack2.text="0";
+				txtPrecioVentaPack3.text="0";
+				txtPrecioPack1Compra.text="0";
+				txtPrecioCompraPack2.text="0";
+				txtPrecioCompraPack3.text="0";
+			}
+			
+			protected function operation4_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("FALLO AL BUSCAR PACK!!");
+				
+			}
+			
+			protected function operation4_resultHandler(event:ResultEvent):void
+			{
+				packList = new XMLList(event.result);
+				
+				cargarEtiquetasPackDescripcion();
+				
+				
+			}
+			protected function cargarDatosProducto():void{
+				adgProducto.selectedIndex=0;
+				idProducto=listaProductos[adgProducto.selectedIndex].id;
+				txtDetalleProducto.text=listaProductos[adgProducto.selectedIndex].detalle;
+				txtNombreProducto.text=listaProductos[adgProducto.selectedIndex].descripcion;
+				txtCodigoBarra.text=listaProductos[adgProducto.selectedIndex].codigoBarra;
+				txtCantidadIngresada.text=listaProductos[adgProducto.selectedIndex].cantidadIngresada;
+				txtCantidadInicial.text=listaProductos[adgProducto.selectedIndex].primerCantidadInicial;
+				txtCantidadTotal.text=listaProductos[adgProducto.selectedIndex].cantidadTotalActual;
+				txtDetallesCompra.text=listaProductos[adgProducto.selectedIndex].detalleCompra.detalle;
+				txtDetalleVenta.text=listaProductos[adgProducto.selectedIndex].listDetalleVenta.detalle;
+				dtfFechaIngreso.text=listaProductos[adgProducto.selectedIndex].fechaIngresoInicial;
+				dtfFechaVencimiento.text=listaProductos[adgProducto.selectedIndex].fechaVencimiento;
+				
+				
+			
+			}
+			protected function cargarEtiquetasPackDescripcion():void{
+				lblPack1Compra.text=String(listaPack[0].descripcion);
+				lblPack2Compra.text=String(listaPack[1].descripcion);
+				lblPack3Compra.text=String(listaPack[2].descripcion);
+				lblPack1Venta.text=String(listaPack[0].descripcion);
+				lblPack2Venta.text=String(listaPack[1].descripcion);
+				lblPack3Venta.text=String(listaPack[3].descripcion);
+			
+			}
+			private function transferirFocus(KeyPress:KeyboardEvent):void{
+				if(KeyPress.keyCode==Keyboard.ENTER){
+					
+					if(KeyPress.target.toString().indexOf("cmbSucusal")!=-1){
+						cmbProveedor.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("cmbProveedor")!=-1){
+						txtNombreProducto.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtNombreProducto")!=-1){
+						txtCodigoBarra.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtCodigoBarra")!=-1){
+						txtPrecioUnitarioCompra.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtPrecioUnitarioCompra")!=-1){
+						txtPrecioPack1Compra.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtPrecioPack1Compra")!=-1){
+						txtPrecioCompraPack2.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtPrecioCompraPack2")!=-1){
+						txtPrecioCompraPack3.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtPrecioCompraPack3")!=-1){
+						txtCantidadPrecioUnitarioCompra.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtCantidadPrecioUnitarioCompra")!=-1){
+						txtCantidadPack1Compra.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtCantidadPack1Compra")!=-1){
+						txtCantidadPack2Compra.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtCantidadPack2Compra")!=-1){
+						txtCantidadPack3Compra.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtCantidadPack3Compra")!=-1){
+						mskPorcentajeCompra.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("mskPorcentajeCompra")!=-1){
+						txtDetallesCompra.setFocus();
+					}
+					
+					if(KeyPress.target.toString().indexOf("txtPrecioUnitarioVenta")!=-1){
+						txtPrecioVentaPack1.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtPrecioVentaPack1")!=-1){
+						txtPrecioVentaPack2.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtPrecioVentaPack2")!=-1){
+						txtPrecioVentaPack3.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtPrecioVentaPack3")!=-1){
+						txtCantidadPrecioUnitarioVenta.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtCantidadPrecioUnitarioVenta")!=-1){
+						txtCantidadVentaPack1.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtCantidadVentaPack1")!=-1){
+						txtCantidadVentaPack2.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtCantidadVentaPack2")!=-1){
+						txtCantidadVentaPack3.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("txtCantidadVentaPack3")!=-1){
+						mskPorcentajeVenta.setFocus();
+					}
+					if(KeyPress.target.toString().indexOf("mskPorcentajeVenta")!=-1){
+						txtDetalleVenta.setFocus();
+					}
+				
+				}
+			}
+			
+			protected function btnNuevoProducto_clickHandler(event:MouseEvent):void
+			{
+				limpiarControles();
+				btnNuevoProducto.enabled=false;
+				txtNombreProducto.setFocus();
+				
+			}
+			protected function getDatos():String{
+				var producto:String="<producto>" +
+					"<id>"+idProducto+"</id>" +
+					"<descripcion>"+txtNombreProducto.text+"</descripcion>" +
+					"<precioUnitarioCompra>0</precioUnitarioCompra>" +
+					"<precioUnitarioVenta>0</precioUnitarioVenta>" +
+					"<codigoBarra>0</codigoBarra>" +
+					"<primerCantidadInicial>0</primerCantidadInicial>" +
+					"<cantidadIngresada>0</cantidadIngresada>" +
+					"<cantidadTotalActual>0</cantidadTotalActual>" +
+					
+					
+					
+					"<fechaVencimiento>0</fechaVencimiento>" +
+					"<fechaIngresoInicial>0</fechaIngresoInicial>" +
+					"<fechaCantidadIngresada>0</fechaCantidadIngresada>" +
+					
+					
+					
+					"<fechaUltimaCompra>0</fechaUltimaCompra>" +
+					"<fechaUltimaVenta>0</fechaUltimaVenta>" +
+					"<fechaUltimaActualizacion>0</fechaUltimaActualizacion>" +
+					"<detalle>0</detalle>" +
+					
+					"<porcentajeCompra>0</porcentajeCompra>" +
+					"<porcentajeVenta>0</porcentajeVenta>" +
+					
+					"<sucursal>\n" +
+						"<id></id>\n" +
+						"<nombre></nombre>\n" +
+						"<descripcion></descripcion>\n" +
+						"<fechaUltimaCompra></fechaUltimaCompra>\n" +
+						"<fechaUltimaVenta></fechaUltimaVenta>\n" +
+					"</sucursal>\n" +
+					
+					"<proveedor>" +
+						"<id></id>\n" +
+						"<nombre></nombre>\n" +
+						"<detalle></detalle>\n" +						
+					"</proveedor>" +
+					
+					"<compraProducto>" +
+							"<itemCompra>" +
+									"<id></id>" +
+									"<presentacion></presentacion>" +
+									"<fecha></fecha>" +
+									"<porcentajeAplicado></porcentajeAplicado>" +
+									"<detalle></detalle>" +
+									"<precio></precio>" +
+							"</itemCompra>" +
+							"<itemCompra>" +
+									"<id></id>" +
+									"<presentacion></presentacion>" +
+									"<fecha></fecha>" +
+									"<porcentajeAplicado></porcentajeAplicado>" +
+									"<detalle></detalle>" +
+									"<precio></precio>" +
+							"</itemCompra>" +
+							"<itemCompra>" +
+									"<id></id>" +
+									"<presentacion></presentacion>" +
+									"<fecha></fecha>" +
+									"<porcentajeAplicado></porcentajeAplicado>" +
+									"<detalle></detalle>" +
+									"<precio></precio>" +
+							"</itemCompra>" +
+							"<itemCompra>" +
+									"<id></id>" +
+									"<presentacion></presentacion>" +
+									"<fecha></fecha>" +
+									"<porcentajeAplicado></porcentajeAplicado>" +
+									"<detalle></detalle>" +
+									"<precio></precio>" +
+							"</itemCompra>" +
+							"<itemCompra>" +
+									"<id></id>" +
+									"<presentacion></presentacion>" +
+									"<fecha></fecha>" +
+									"<porcentajeAplicado></porcentajeAplicado>" +
+									"<detalle></detalle>" +
+									"<precio></precio>" +
+							"</itemCompra>" +							
+					"</compraProducto>" +
+					
+					"<ventaProducto>" +
+							"<itemVenta>" +
+									"<id></id>" +
+									"<presentacion></presentacion>" +
+									"<fecha></fecha>" +
+									"<porcentajeAplicado></porcentajeAplicado>" +
+									"<detalle></detalle>" +
+									"<precio></precio>" +
+							"</itemVenta>" +
+							"<itemVenta>" +
+									"<id></id>" +
+									"<presentacion></presentacion>" +
+									"<fecha></fecha>" +
+									"<porcentajeAplicado></porcentajeAplicado>" +
+									"<detalle></detalle>" +
+									"<precio></precio>" +
+							"</itemVenta>" +
+							"<itemVenta>" +
+									"<id></id>" +
+									"<presentacion></presentacion>" +
+									"<fecha></fecha>" +
+									"<porcentajeAplicado></porcentajeAplicado>" +
+									"<detalle></detalle>" +
+									"<precio></precio>" +
+							"</itemVenta>" +
+							"<itemVenta>" +
+									"<id></id>" +
+									"<presentacion></presentacion>" +
+									"<fecha></fecha>" +
+									"<porcentajeAplicado></porcentajeAplicado>" +
+									"<detalle></detalle>" +
+									"<precio></precio>" +
+							"</itemVenta>" +
+							"<itemVenta>" +
+									"<id></id>" +
+									"<presentacion></presentacion>" +
+									"<fecha></fecha>" +
+									"<porcentajeAplicado></porcentajeAplicado>" +
+									"<detalle></detalle>" +
+									"<precio></precio>" +
+							"</itemVenta>" +							
+					"</ventaProducto>" +
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					"</producto>";
+				return producto;
+			}
+			
+			protected function mskPorcentajeCompra_enterHandler(event:FlexEvent):void
+			{
+				if(mskPorcentajeCompra.text.length>0){
+					
+					Alert.show("DESEA APLICAR EL PORCENTAJE A LA COMPRA DE PRODUCTO DE LAS PRESENTACIONES?","porcentaje",Alert.YES|Alert.NO,this,aplicarPorcentaje,null,Alert.NO);
+				}
+			}
+			private function aplicarPorcentaje():void{
+				
+			
+			}
+			
+			protected function operation5_resultHandler(event:ResultEvent):void
+			{
+				xmlUsuario = new XMLList(event.result);
+				
+				cmbUsuario.dataProvider=listaUsuario;
+				cmbUsuario.selectedItemId=4;
+				
+			}
+			
+			protected function operation5_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("FALLO AL BUSCAR USUARIO!");
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:WebService id="wsUsuario" wsdl="http://localhost:8080/EJBPersonaBeanService/EJBPersonaBean?WSDL">
+			<s:operation name="selectAllJefes" result="operation5_resultHandler(event)" fault="operation5_faultHandler(event)">
+				
+			</s:operation>
+		</s:WebService>
+		<s:WebService id="wsproveedor" wsdl="http://localhost:8080/EJBProveedorBeanService/EJBProveedorBean?WSDL">
+			<s:operation name="selectAllProveedor" result="operation1_resultHandler(event)" fault="operation1_faultHandler(event)">
+				
+			</s:operation>
+		</s:WebService>
+		<s:WebService id="wsSucursal" wsdl="http://localhost:8080/EJBSucursalBeanService/EJBSucursalBean?WSDL">
+			<s:operation name="buscarTodasLasSucursales" result="operation2_resultHandler(event)" fault="operation2_faultHandler(event)">
+				
+			</s:operation>
+		</s:WebService>
+		<s:WebService id="wsProducto" wsdl="http://localhost:8080/EJBProductoBeanService/EJBProductoBean?WSDL" showBusyCursor="true">
+			<s:operation result="operation3_resultHandler(event)" fault="operation3_faultHandler(event)" name="selectAllProducto">
+				
+			</s:operation>
+		</s:WebService>
+		<s:WebService wsdl="http://localhost:8080/EJBPackProductoService/EJBPackProducto?WSDL" id="wsPackProducto" showBusyCursor="true">
+			<s:operation name="crearPack" result="operation1_resultHandler(event)" fault="operation1_faultHandler(event)">
+				
+			</s:operation>
+			<s:operation name="selectAllPackProducto" result="operation4_resultHandler(event)" fault="operation4_faultHandler(event)">
+				
+			</s:operation>
+			
+		</s:WebService>
+		<s:XMLListCollection id="listaProveedor" source="{proveedor.item}"/>
+		<s:XMLListCollection id="listaSucursal" source="{sucursal.item}"/>
+		<s:XMLListCollection id="listaProductos" source="{productosList.item}"/>
+		<s:XMLListCollection id="listaPack" source="{packList.item}"/>
+		<s:XMLListCollection id="listaUsuario" source="{xmlUsuario.item}"/>
+		
+	</fx:Declarations>
+	<s:Label x="310" y="217" backgroundAlpha="0.87" color="#FFC600" fontFamily="Verdana"
+			 fontSize="16" text="COMPRAS"/>
+	<mx:VRule x="625" y="214" width="1" height="209"/>
+	<s:Label x="915" y="217" backgroundAlpha="0.87" color="#FFC600" fontFamily="Verdana"
+			 fontSize="16" text="VENTAS"/>
+	<s:Label id="lblPrecioUnitarioCompra" x="135" y="247" fontFamily="Verdana" fontSize="16"
+			 text="PU"/>
+	<s:Label id="lblPack1Compra" x="250" y="244" fontFamily="Verdana" fontSize="16"/>
+	<s:Label id="lblPack2Compra" x="367" y="243" fontFamily="Verdana" fontSize="16"/>
+	<s:Label id="lblPack3Compra" x="459" y="244" fontFamily="Verdana" fontSize="16"/>
+	<s:Label id="lblPrecioUnitarioVenta" x="687" y="251" fontFamily="Verdana" fontSize="16"
+			 text="PU"/>
+	<s:Label id="lblPack1Venta" x="791" y="246" fontFamily="Verdana" fontSize="16"/>
+	<s:Label id="lblPack2Venta" x="906" y="246" fontFamily="Verdana" fontSize="16"/>
+	<s:Label id="lblPack3Venta" x="1031" y="246" fontFamily="Verdana" fontSize="16"/>
+	<s:TextInput id="txtPrecioUnitarioCompra" x="123" y="275" width="56" fontFamily="Verdana"
+				 fontSize="16" text="0"/>
+	<s:TextInput id="txtPrecioPack1Compra" x="231" y="275" width="60" fontFamily="Verdana"
+				 fontSize="16" text="0"/>
+	<s:TextInput id="txtPrecioCompraPack2" x="347" y="275" width="58" fontFamily="Verdana"
+				 fontSize="16" text="0"/>
+	<s:TextInput id="txtPrecioCompraPack3" x="443" y="275" width="59" fontFamily="Verdana"
+				 fontSize="16" text="0"/>
+	<s:Label x="40" y="278" fontFamily="Verdana" fontSize="16" text="Precio:"/>
+	<s:Label x="6" y="315" fontFamily="Verdana" fontSize="16" text="Presentacion:"/>
+	<controls:MaskedTextInput id="txtCantidadPrecioUnitarioCompra" x="122" y="306" width="60"
+							  fontFamily="Verdana" fontSize="16" text="0"/>
+	<controls:MaskedTextInput id="txtCantidadPack1Compra" x="231" y="306" width="60"
+							  fontFamily="Verdana" fontSize="16" text="0"/>
+	<controls:MaskedTextInput id="txtCantidadPack2Compra" x="347" y="306" width="60" text="0"
+							  fontFamily="Verdana" fontSize="16"/>
+	<controls:MaskedTextInput id="txtCantidadPack3Compra" x="443" y="306" width="60"
+							  fontFamily="Verdana" fontSize="16" text="0"/>
+	<s:TextInput id="txtPrecioUnitarioVenta" x="676" y="277" width="44" fontFamily="Verdana"
+				 fontSize="16" text="0"/>
+	<s:TextInput id="txtPrecioVentaPack1" x="776" y="277" width="42" fontFamily="Verdana" text="0"
+				 fontSize="16"/>
+	<s:TextInput id="txtPrecioVentaPack2" x="889" y="278" width="51" fontFamily="Verdana" text="0"
+				 fontSize="16"/>
+	<s:TextInput id="txtPrecioVentaPack3" x="1025" y="278" width="47" fontFamily="Verdana" text="0"
+				 fontSize="16"/>
+	<controls:MaskedTextInput id="txtCantidadPrecioUnitarioVenta" x="676" y="307" width="44" text="0"
+							  fontFamily="Verdana" fontSize="16"/>
+	<controls:MaskedTextInput id="txtCantidadVentaPack1" x="776" y="307" width="42" text="0"
+							  fontFamily="Verdana" fontSize="16"/>
+	<controls:MaskedTextInput id="txtCantidadVentaPack2" x="890" y="307" width="50" text="0"
+							  fontFamily="Verdana" fontSize="16"/>
+	<controls:MaskedTextInput id="txtCantidadVentaPack3" x="1025" y="307" width="47"
+							  fontFamily="Verdana" fontSize="16" text="0"/>
+	<s:Label x="6" y="482" fontFamily="Verdana" fontSize="16" text="Cantidad Ingresada:"/>
+	<controls:MaskedTextInput id="txtCantidadIngresada" x="185" y="467" fontFamily="Verdana"
+							  fontSize="16" text="0"/>
+	<s:Label x="10" y="518" fontFamily="Verdana" fontSize="16" text="Cantidad Inicial:"/>
+	<s:Label x="10" y="551" fontFamily="Verdana" fontSize="16" text="Cantidad Total:"/>
+	<controls:MaskedTextInput id="txtCantidadInicial" x="185" y="503" fontFamily="Verdana" text="0"
+							  fontSize="16"/>
+	<controls:MaskedTextInput id="txtCantidadTotal" x="184" y="536" fontFamily="Verdana" text="0"
+							  fontSize="16"/>
+	<mx:HRule x="10" y="431" width="1282" height="3"/>
+	<mx:DateField id="dtfFechaIngreso" x="526" y="500" width="127" fontFamily="Verdana" fontSize="16"
+				  formatString="DD/MM/YYYY" showToday="true"/>
+	<mx:DateField id="dtfFechaVencimiento" x="526" y="531" fontFamily="Verdana" fontSize="16" formatString="DD/MM/YYYY" showToday="true"/>
+	<s:Label x="375" y="513" fontFamily="Verdana" fontSize="16" text="Fecha Ingreso:"/>
+	<s:Label x="356" y="544" fontFamily="Verdana" fontSize="16" text="Fecha Vencimiento:"/>
+	<s:Label x="559" y="8" color="#FBB100" fontSize="16" text="CARGA DE PRODUCTO"/>
+	<s:Label x="63" y="77" fontFamily="Verdana" fontSize="16" text="Proveedor:"/>
+	<components:AdvancedAutoComplete id="cmbSucusal" x="158" y="31" width="254" fontFamily="Verdana"
+									 fontSize="16" labelField="nombre" matchType="beginning">
+	</components:AdvancedAutoComplete>
+	<s:Label x="79" y="45" fontFamily="Verdana" fontSize="16" text="Sucursal:"/>
+	<components:AdvancedAutoComplete id="cmbProveedor" x="157" y="65" width="254"
+									 fontFamily="Verdana" fontSize="16" labelField="nombre"
+									 matchType="beginning">
+	</components:AdvancedAutoComplete>
+	<s:Label x="4" y="112" fontFamily="Verdana" fontSize="16" text="Nombre Producto:"/>
+	<s:TextInput id="txtNombreProducto" x="157" y="98" width="254" fontFamily="Verdana" fontSize="16" prompt="Ingrese Nombre De Producto....."/>
+	<s:Button id="btnNuevoProducto" x="278" y="602" label="Nuevo"
+			  click="btnNuevoProducto_clickHandler(event)" fontFamily="Verdana" fontSize="16"/>
+	<s:Button id="btnGuardarEditar" x="399" y="602" label="Guardar" enabled="true"
+			  fontFamily="Verdana" fontSize="16"/>
+	<s:Label x="40" y="145" fontFamily="Verdana" fontSize="16" text="Codigo Barra:"/>
+	<controls:MaskedTextInput id="txtCodigoBarra" x="157" y="129" width="254" height="32"
+							  fontFamily="Verdana" fontSize="16" toolTip="Codigo de Barra del Producto"/>
+	<s:BorderContainer x="671" y="442" width="377" height="243">
+		<s:Button id="btnExaminar" x="10" y="3" label="Examinar..." enabled="false"
+				  fontFamily="Verdana" fontSize="16"/>
+		<s:Button id="btnAlmacenar" x="10" y="215" label="Almacenar" enabled="false"
+				  fontFamily="Verdana" fontSize="16"/>
+		<s:Image id="imgProducto" x="12" y="28" width="353" height="184"
+				 source="assets/dulceJosefina.jpg"/>
+		<s:Label x="145" y="5" width="200" color="#F68D04" fontSize="16"
+				 text="Cargar Imagen del Producto"/>
+	</s:BorderContainer>
+	<s:DataGrid id="adgProducto" x="714" y="43" width="366" requestedRowCount="4">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="descripcion" headerText="Nombre"></s:GridColumn>
+				<s:GridColumn dataField="fechaVencimiento" headerText="Fecha Vencimiento"></s:GridColumn>
+				<s:GridColumn dataField="porcentajeCompra" headerText="Porcentaje Compra"></s:GridColumn>
+				<s:GridColumn dataField="porcentajeVenta" headerText="Porcentaje Venta"></s:GridColumn>
+			</s:ArrayList>
+		</s:columns>
+		<s:typicalItem>
+			<fx:Object dataField1="Sample Data" dataField2="Sample Data" dataField3="Sample Data"></fx:Object>
+		</s:typicalItem>
+		<s:ArrayList>
+			<fx:Object dataField1="data1" dataField2="data1" dataField3="data1"></fx:Object>
+			<fx:Object dataField1="data2" dataField2="data2" dataField3="data2"></fx:Object>
+			<fx:Object dataField1="data3" dataField2="data3" dataField3="data3"></fx:Object>
+			<fx:Object dataField1="data4" dataField2="data4" dataField3="data4"></fx:Object>
+		</s:ArrayList>
+	</s:DataGrid>
+	<s:Label x="521" y="290" fontFamily="Verdana" fontSize="16" text="%"/>
+	<s:Label x="1104" y="291" fontFamily="Verdana" fontSize="16" text="%"/>
+	<controls:MaskedTextInput id="mskPorcentajeCompra" x="521" y="306" width="59"
+							  fontFamily="Verdana" fontSize="16" enter="mskPorcentajeCompra_enterHandler(event)" text="0"/>
+	<controls:MaskedTextInput id="mskPorcentajeVenta" x="1104" y="307" width="59" fontFamily="Verdana"
+							  fontSize="16" text="0"/>
+	<components:AutoComplete id="txtSearchProducto" x="1100" y="62" width="188">
+	</components:AutoComplete>
+	<s:Label x="1100" y="44" color="#FFC600" fontFamily="Verdana" fontSize="16"
+			 text="Buscar Producto"/>
+	<s:Label x="437" y="24" height="14" fontFamily="Verdana" fontSize="16" text="Detalles Producto:"/>
+	<s:TextArea id="txtDetalleProducto" x="437" y="43" width="255" height="134"/>
+	<s:Label x="10" y="353" fontFamily="Verdana" fontSize="16" text="Detalles Compra:"/>
+	<s:Label x="639" y="353" fontFamily="Verdana" fontSize="16" text="Detalles Venta:"/>
+	<s:TextArea id="txtDetallesCompra" x="189" y="353" width="283" height="66" fontFamily="Verdana"
+				fontSize="16"/>
+	<s:TextArea id="txtDetalleVenta" x="764" y="352" width="279" height="66" fontFamily="Verdana"
+				fontSize="16"/>
+	<mx:HRule x="5" y="205" width="1288" height="1"/>
+	<s:Button id="btnUltimo" x="738" y="180" label="&lt;&lt;" fontFamily="Verdana" fontSize="16" visible="false"/>
+	<s:Button id="btnAnterior" x="816" y="180" label="&lt;" fontFamily="Verdana" fontSize="16" visible="false"/>
+	<s:Button id="btnPosterior0" x="894" y="180" label="&gt;" fontFamily="Verdana" fontSize="16" visible="false"/>
+	<s:Button id="btnPosterior" x="972" y="180" label="&gt;&gt;" fontFamily="Verdana" fontSize="16" visible="false"/>
+	<s:Label x="82" y="10" width="70" height="13" fontFamily="Verdana" fontSize="16" text="Usuario:"/>
+	<components:AdvancedAutoComplete id="cmbUsuario" x="160" y="3" width="252" fontFamily="Verdana"
+									 fontSize="16" labelField="login">
+	</components:AdvancedAutoComplete>
+</s:Group>
+

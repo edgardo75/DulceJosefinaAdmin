@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:controls="com.adobe.flex.extras.controls.*"
+		 width="684" height="300">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Label x="176" y="10" color="#EF9F04" fontFamily="Verdana" fontSize="16"
+			 text="CARGA CLIENTE PREFERENCIAL"/>
+	<s:Label x="28" y="54" text="NOMBRE:"/>
+	<s:Label x="27" y="79" text="APELLIDO:"/>
+	<s:Label x="27" y="101" text="DOCUMENTO:"/>
+	<s:Label x="27" y="123" text="TELEFONO:"/>
+	<s:Button id="btnGuardar" x="307" y="230" label="Guardar"/>
+	<s:TextInput id="txtNombreClientePreferencial" x="116" y="44" width="246"/>
+	<s:TextInput id="txtApellidoClientePreferencial" x="116" y="69" width="246"/>
+	<controls:MaskedTextInput id="mskDocumento" x="116" y="92" width="246"/>
+	<controls:MaskedTextInput id="mskTelefono" x="116" y="116" width="246"/>
+	<s:VGroup id="rdgGenero" x="484" y="36" fontSize="16">
+		<s:RadioButton id="rdbFemenino" label="FEMENINO" groupName="Genero" selected="false"/>
+		<s:RadioButton id="rdbMasculino" label="MASCULINO" groupName="Genero" selected="true"/>
+	</s:VGroup>
+	<s:VGroup id="rdgTipoDocu" x="483" y="87" fontSize="16">
+		<s:RadioButton id="rdbDni" label="DNI" groupName="TipoDocumento" selected="true"/>
+		<s:RadioButton id="rdble" label="LE" groupName="TipoDocumento" selected="false"/>
+		<s:RadioButton id="rdblc" label="LC" groupName="TipoDocumento" selected="false"/>
+		<s:RadioButton id="rdbpasaporte" label="PASAPORTE" groupName="TipoDocumento" selected="false"/>
+	</s:VGroup>
+</s:Group>

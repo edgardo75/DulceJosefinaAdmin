@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:controls="com.adobe.flex.extras.controls.*"
+		 width="618" height="300" creationComplete="group1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			[Bindable]
+			public var arrayTel:Array=[];
+			
+			public function addGrid():void{
+				var b:Boolean=false;
+				
+				if(arrayTel.length==0){
+					arrayTel=[{prefijo:txtprefijo.text,numero:txtnumerotel.text}];
+					blanqueartodo();
+				}else{
+					
+					for(var i:int=0;i<arrayTel.length&&!b;i++){
+						
+						if(int(arrayTel[i].numero)==int(txtnumerotel.text))		
+							b=true;
+						
+						
+						
+						
+					}
+					
+					
+					if(!b){
+						arrayTel.push({prefijo:txtprefijo.text,numero:txtnumerotel.text});
+						blanqueartodo();
+					}else
+						Alert.show("YA EXISTE EL NUMERO EN LA LISTA");
+					
+				}
+				listtel.source=arrayTel;
+				listtel.refresh();
+			
+			}
+			public function blanqueartodo():void{
+				
+				txtnumerotel.text="";
+				txtprefijo.text="0264";
+				
+				
+				
+				
+			}
+			public function getDatosTelefonos():String{
+				var xmlTelefonos:String="<datosTelefono>\n";
+				for(var ii:int=0;ii<listtel.length;ii++){
+					xmlTelefonos+="<telefono>\n" ;
+					
+					if(String(listtel[ii].idPersonaTelefono).indexOf("undefined")!=-1){
+						xmlTelefonos+="<idPersonaTelefono>0</idPersonaTelefono>";
+					}else{
+						xmlTelefonos+="<idPersonaTelefono>"+listtel[ii].idPersonaTelefono+"</idPersonaTelefono>";
+					}
+						
+						if(String(listtel[ii].id).indexOf("undefined")!=-1){
+							xmlTelefonos+="<id>0</id>";
+						}else{
+							xmlTelefonos+="<id>"+listtel[ii].id+"</id>";
+							
+						}
+											
+						
+						xmlTelefonos+="<numero>"+listtel[ii].numero+"</numero>\n"+
+						"<prefijo>"+listtel[ii].prefijo+"</prefijo>\n"+						
+						"</telefono>\n";
+				}	
+				
+				xmlTelefonos+="</datosTelefono>\n";
+				return xmlTelefonos;
+				
+			}
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				txtprefijo.text="0264";
+				adgTel.dataProvider=listtel;
+				txtnumerotel.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				txtprefijo.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+				btnAgregarTel.addEventListener(KeyboardEvent.KEY_UP,transferirFocus);
+			}
+			//----------------------------------------------------------------------------------
+			public function clearTodo():void{
+				var longarray:int=arrayTel.length;			
+				txtprefijo.text="0264";
+				for(var j:int=0;j<longarray;j++)
+					arrayTel.pop();
+				listtel.removeAll();
+				listtel.refresh();
+				
+				
+			}
+			//----------------------------------------------------------------------------------
+			
+			private function agregar_telefono_a_grid():void{
+				if(txtnumerotel.text.length>=7&&(txtnumerotel.text.substring(0,1).indexOf("4")!=-1||txtnumerotel.text.substring(0,2).indexOf("15")!=-1||txtnumerotel.text.substring(0,1).indexOf("6")!=-1||txtnumerotel.text.substring(0,1).indexOf("5")!=-1))
+					addGrid();
+				else
+					Alert.show("Número mal ingresado, mínimo 7 digitos y debe empezar en 4, 5, 6 o 15");
+			}
+			protected function btnAgregarTel_clickHandler(event:MouseEvent):void
+			{
+				agregar_telefono_a_grid();
+				
+				
+			}
+			private function transferirFocus(KeyPress:KeyboardEvent):void{
+				
+				if(KeyPress.keyCode==Keyboard.ENTER){
+				
+							if(txtprefijo.text.length>0&&KeyPress.currentTarget.toString().indexOf("txtprefijo")!=-1)
+								txtnumerotel.setFocus();
+							else{
+								
+								if(KeyPress.currentTarget.toString().indexOf("btnAgregarTel")!=-1&&txtnumerotel.text.length>=7&&txtprefijo.text.length>0)
+									addGrid();
+								else{
+									
+									if(txtnumerotel.text.length>=7&&KeyPress.currentTarget.toString().indexOf("txtnumerotel")!=-1&&(txtnumerotel.text.substring(0,1).indexOf("4")!=-1||txtnumerotel.text.substring(0,2).indexOf("15")!=-1||txtnumerotel.text.substring(0,1).indexOf("6")!=-1||txtnumerotel.text.substring(0,1).indexOf("5")!=-1)){
+										btnAgregarTel.setFocus();
+										
+									}
+								}
+								
+							}
+							
+						}
+						
+						
+					}
+					
+				
+				
+			protected function txtnumerotel_enterHandler(event:FlexEvent):void
+			{
+				
+				agregar_telefono_a_grid();
+			}
+			protected function adgTel_doubleClickHandler(event:MouseEvent):void
+			{
+				Alert.show("Está seguro de eliminar el Registro actual?","Confirmar Eliminación", Alert.YES | Alert.NO, this, delRowHandler, null, Alert.NO);
+			}
+			protected function delRowHandler(evt:CloseEvent):void{
+				if ((evt.detail == Alert.NO) || (evt.detail == Alert.CANCEL)) return;
+				
+				
+				adgTel.dataProvider..removeItemAt(adgTel.selectedIndex);
+				
+				listtel.refresh();
+			}
+				
+			
+			
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:ArrayCollection id="listtel"/>
+	</fx:Declarations>
+	<controls:MaskedTextInput id="txtprefijo" x="92" y="86" width="104" fontSize="16"
+							  inputMask="(#########)" maxChars="10" restrict="0-9"/>
+	<s:Label x="92" y="72" color="#EB9D06" fontSize="16" text="Prefijo"/>
+	<s:Label x="313" y="71" color="#EB9D06" fontSize="16" text="Número"/>
+	<controls:MaskedTextInput id="txtnumerotel" x="313" y="85" fontSize="16" inputMask="#########" enter="txtnumerotel_enterHandler(event)"
+							  maxChars="20" restrict="0-9"/>
+	<s:Button id="btnAgregarTel" x="413" y="85" label="Agregar"
+			  click="btnAgregarTel_clickHandler(event)" fontSize="16" toolTip="Agregar numero de telefono al listado"/>
+	<s:DataGrid id="adgTel" x="52" y="128" width="508" height="128"
+				doubleClick="adgTel_doubleClickHandler(event)" doubleClickEnabled="true"
+				fontFamily="Verdana" fontSize="12" requestedRowCount="4">
+		<s:columns>
+			<s:ArrayList>
+				
+				<s:GridColumn dataField="id" headerText="id" visible="false"></s:GridColumn>
+				<s:GridColumn dataField="idPersonaTelefono" headerText="idPersonaTelefono" visible="false"></s:GridColumn>
+				<s:GridColumn dataField="prefijo" headerText="Prefijo"></s:GridColumn>
+				<s:GridColumn dataField="numero" headerText="Número"></s:GridColumn>				
+			</s:ArrayList>
+		</s:columns>
+	</s:DataGrid>
+	<s:Label x="286" y="10" color="#EB9D06" fontFamily="Verdana" fontSize="16" text="Telefono"/>
+</s:Group>

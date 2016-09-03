@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="656" height="300" creationComplete="group1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			private var xmlSucursal:XMLList;
+			
+			protected function operation1_resultHandler(event:ResultEvent):void
+			{
+				xmlSucursal=new XMLList(event.result);
+				dgSucursal.dataProvider = listaSucursales;
+				
+			}
+			
+			protected function operation1_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("FALLO LISTA DE SUCURSAL!!!");
+			}
+			
+			protected function operation2_resultHandler(event:ResultEvent):void
+			{
+				Alert.show("exito");
+				wsSucursal.buscarTodasLasSucursales();
+				
+			}
+			
+			protected function operation2_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("FALLÓ LA CARGA DE SUCURSAL!!!");
+			}
+			
+			protected function btnGuardarSucursal_clickHandler(event:MouseEvent):void
+			{
+				if(txtNombreSucursal.text.length>0){
+					wsSucursal.crearSucursal(txtNombreSucursal.text.toString(),txtDetalleSucursal.text.toString());
+				}
+			}
+			
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				wsSucursal.buscarTodasLasSucursales();
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:XMLListCollection id="listaSucursales" source="{xmlSucursal.item}"/>
+		<s:WebService id="wsSucursal" wsdl="http://localhost:8080/EJBSucursalBeanService/EJBSucursalBean?WSDL">
+			<s:operation name="buscarTodasLasSucursales" result="operation1_resultHandler(event)" fault="operation1_faultHandler(event)">
+				
+			</s:operation>
+			<s:operation name="crearSucursal" result="operation2_resultHandler(event)" fault="operation2_faultHandler(event)">
+				
+			</s:operation>
+		</s:WebService>
+	</fx:Declarations>
+	<s:Label x="184" y="26" text="CARGAR SUCURSAL"/>
+	<s:Label x="46" y="58" text="NOMBRE:"/>
+	<s:Label x="17" y="108" text="DESCRIPCION:"/>
+	<s:TextArea id="txtDetalleSucursal" x="106" y="108"/>
+	<s:TextInput id="txtNombreSucursal" x="109" y="58"/>
+	<s:Button id="btnGuardarSucursal" x="184" y="269" label="Guardar"
+			  click="btnGuardarSucursal_clickHandler(event)"/>
+	<s:DataGrid id="dgSucursal" x="353" y="83" width="275" requestedRowCount="4">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="id" headerText="id"></s:GridColumn>
+				<s:GridColumn dataField="nombre" headerText="Nombre"></s:GridColumn>
+				<s:GridColumn dataField="descripcion" headerText="Descripcion"></s:GridColumn>
+			</s:ArrayList>
+		</s:columns>
+		<s:typicalItem>
+			<fx:Object dataField1="Sample Data" dataField2="Sample Data" dataField3="Sample Data"></fx:Object>
+		</s:typicalItem>
+		<s:ArrayList>
+			<fx:Object dataField1="data1" dataField2="data1" dataField3="data1"></fx:Object>
+			<fx:Object dataField1="data2" dataField2="data2" dataField3="data2"></fx:Object>
+			<fx:Object dataField1="data3" dataField2="data3" dataField3="data3"></fx:Object>
+			<fx:Object dataField1="data4" dataField2="data4" dataField3="data4"></fx:Object>
+		</s:ArrayList>
+	</s:DataGrid>
+</s:Group>

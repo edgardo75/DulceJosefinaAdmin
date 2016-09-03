@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="714" height="300" initialize="group1_initializeHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			private var proveedores:XMLList;
+			
+			protected function group1_initializeHandler(event:FlexEvent):void
+			{
+				wsProveedor.selectAllProveedor();
+				
+			}
+			
+			protected function operation1_resultHandler(event:ResultEvent):void
+			{
+				
+				proveedores = new XMLList(event.result);
+				dgProveedor.dataProvider=listaProveedor;
+				limpiarControles();
+			}
+			
+			protected function operation1_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("FALLO BUSCAR PROVEEDORES!!!");
+			}
+			
+			protected function operation2_resultHandler(event:ResultEvent):void
+			{
+				
+				wsProveedor.selectAllProveedor();
+				
+			}
+			protected function limpiarControles():void{
+				txtDetalle.text="";
+				txtNombreProveedor.text="";
+			}
+			protected function operation2_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("FALLO!!!");
+			}
+			
+			protected function btnguardar_clickHandler(event:MouseEvent):void
+			{
+				if(txtNombreProveedor.text.length>0){
+					wsProveedor.crearProveedor(txtNombreProveedor.text.toString(),txtDetalle.text.toString());
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		<s:WebService wsdl="http://localhost:8080/EJBProveedorBeanService/EJBProveedorBean?WSDL" id="wsProveedor" showBusyCursor="true" concurrency="single">
+			<s:operation name="selectAllProveedor" result="operation1_resultHandler(event)" fault="operation1_faultHandler(event)">
+				
+			</s:operation>
+			<s:operation name="crearProveedor" result="operation2_resultHandler(event)" fault="operation2_faultHandler(event)">
+				
+			</s:operation>
+		</s:WebService>
+		<s:XMLListCollection id="listaProveedor" source="{proveedores.item}"/>
+	</fx:Declarations>
+	<s:Label x="247" y="10" text="CARGAR PROVEEDOR"/>
+	<s:Label x="11" y="55" text="NOMBRE:"/>
+	<s:Label x="11" y="103" text="DETALLE:"/>
+	<s:TextInput id="txtNombreProveedor" x="74" y="45"/>
+	<s:TextArea id="txtDetalle" x="75" y="101" width="270"/>
+	<s:Button id="btnguardar" x="163" y="260" label="Guardar" click="btnguardar_clickHandler(event)"/>
+	<s:DataGrid id="dgProveedor" x="423" y="13" width="257" requestedRowCount="4">
+		<s:columns>
+			<s:ArrayList>
+				<s:GridColumn dataField="id" headerText="N°" width="45"></s:GridColumn>
+				<s:GridColumn dataField="nombre" headerText="Nombre"></s:GridColumn>
+				<s:GridColumn dataField="detalle" headerText="Detalle"></s:GridColumn>
+			</s:ArrayList>
+		</s:columns>
+		<s:typicalItem>
+			<fx:Object dataField1="Sample Data" dataField2="Sample Data" dataField3="Sample Data"></fx:Object>
+		</s:typicalItem>
+		<s:ArrayList>
+			<fx:Object dataField1="data1" dataField2="data1" dataField3="data1"></fx:Object>
+			<fx:Object dataField1="data2" dataField2="data2" dataField3="data2"></fx:Object>
+			<fx:Object dataField1="data3" dataField2="data3" dataField3="data3"></fx:Object>
+			<fx:Object dataField1="data4" dataField2="data4" dataField3="data4"></fx:Object>
+		</s:ArrayList>
+	</s:DataGrid>
+</s:Group>
