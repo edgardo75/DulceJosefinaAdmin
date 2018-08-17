@@ -1,0 +1,695 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://ejb.dulcejosefina.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ejb.dulcejosefina.com/">
+
+<xs:element name="actualizarProducto" type="tns:actualizarProducto"/>
+
+<xs:element name="actualizarProductoResponse" type="tns:actualizarProductoResponse"/>
+
+<xs:element name="agregarColaCompraProductoyColaVentaProducto" type="tns:agregarColaCompraProductoyColaVentaProducto"/>
+
+<xs:element name="agregarColaCompraProductoyColaVentaProductoResponse" type="tns:agregarColaCompraProductoyColaVentaProductoResponse"/>
+
+<xs:element name="calcularPorcentajeCompra" type="tns:calcularPorcentajeCompra"/>
+
+<xs:element name="calcularPorcentajeCompraResponse" type="tns:calcularPorcentajeCompraResponse"/>
+
+<xs:element name="calcularPorcentajeVenta" type="tns:calcularPorcentajeVenta"/>
+
+<xs:element name="calcularPorcentajeVentaProductosProveedor" type="tns:calcularPorcentajeVentaProductosProveedor"/>
+
+<xs:element name="calcularPorcentajeVentaProductosProveedorResponse" type="tns:calcularPorcentajeVentaProductosProveedorResponse"/>
+
+<xs:element name="calcularPorcentajeVentaResponse" type="tns:calcularPorcentajeVentaResponse"/>
+
+<xs:element name="getCompraProducto" type="tns:getCompraProducto"/>
+
+<xs:element name="getCompraProductoResponse" type="tns:getCompraProductoResponse"/>
+
+<xs:element name="obtenerProductosConPrecioDeVenta" type="tns:obtenerProductosConPrecioDeVenta"/>
+
+<xs:element name="obtenerProductosConPrecioDeVentaResponse" type="tns:obtenerProductosConPrecioDeVentaResponse"/>
+
+<xs:element name="obtenerProductosFraccionadosSinStockPorProveedor" type="tns:obtenerProductosFraccionadosSinStockPorProveedor"/>
+
+<xs:element name="obtenerProductosFraccionadosSinStockPorProveedorResponse" type="tns:obtenerProductosFraccionadosSinStockPorProveedorResponse"/>
+
+<xs:element name="obtenerProductosSinStockPorProveedor" type="tns:obtenerProductosSinStockPorProveedor"/>
+
+<xs:element name="obtenerProductosSinStockPorProveedorResponse" type="tns:obtenerProductosSinStockPorProveedorResponse"/>
+
+<xs:element name="persistirListaCompraProducto" type="tns:persistirListaCompraProducto"/>
+
+<xs:element name="persistirListaCompraProductoResponse" type="tns:persistirListaCompraProductoResponse"/>
+
+<xs:element name="persistirListaProductosProveedor" type="tns:persistirListaProductosProveedor"/>
+
+<xs:element name="persistirListaProductosProveedorResponse" type="tns:persistirListaProductosProveedorResponse"/>
+
+<xs:element name="persistirListaStockProducto" type="tns:persistirListaStockProducto"/>
+
+<xs:element name="persistirListaStockProductoResponse" type="tns:persistirListaStockProductoResponse"/>
+
+<xs:element name="persistirListaVentaProducto" type="tns:persistirListaVentaProducto"/>
+
+<xs:element name="persistirListaVentaProductoResponse" type="tns:persistirListaVentaProductoResponse"/>
+
+<xs:element name="persistirProductosDeSucursal" type="tns:persistirProductosDeSucursal"/>
+
+<xs:element name="persistirProductosDeSucursalResponse" type="tns:persistirProductosDeSucursalResponse"/>
+
+<xs:element name="procesarParaAgregar" type="tns:procesarParaAgregar"/>
+
+<xs:element name="procesarParaAgregarResponse" type="tns:procesarParaAgregarResponse"/>
+
+<xs:element name="seleccionarProductosAVencer" type="tns:seleccionarProductosAVencer"/>
+
+<xs:element name="seleccionarProductosAVencerResponse" type="tns:seleccionarProductosAVencerResponse"/>
+
+<xs:element name="seleccionarProductosSinStock" type="tns:seleccionarProductosSinStock"/>
+
+<xs:element name="seleccionarProductosSinStockResponse" type="tns:seleccionarProductosSinStockResponse"/>
+
+<xs:element name="verificarFechasVecimiento" type="tns:verificarFechasVecimiento"/>
+
+<xs:element name="verificarFechasVecimientoResponse" type="tns:verificarFechasVecimientoResponse"/>
+
+<xs:element name="xmlProducto" type="tns:xmlProducto"/>
+
+<xs:element name="xmlProductoResponse" type="tns:xmlProductoResponse"/>
+
+<xs:complexType name="persistirProductosDeSucursal">
+<xs:sequence>
+<xs:element name="arg0" type="tns:datosProducto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="datosProducto">
+<xs:sequence>
+<xs:element name="cantidadIngresada" type="xs:int"/>
+<xs:element name="cantidadTotalActual" type="xs:int"/>
+<xs:element name="codigoBarra" type="xs:string" minOccurs="0"/>
+<xs:element name="descripcion" type="xs:string" minOccurs="0"/>
+<xs:element name="detalle" type="xs:string" minOccurs="0"/>
+<xs:element name="fechaCantidadIngresada" type="xs:string" minOccurs="0"/>
+<xs:element name="fechaIngresoInicial" type="xs:string" minOccurs="0"/>
+<xs:element name="fechaUltimaActualizacion" type="xs:string" minOccurs="0"/>
+<xs:element name="fechaUltimaCompra" type="xs:string" minOccurs="0"/>
+<xs:element name="fechaUltimaVenta" type="xs:string" minOccurs="0"/>
+<xs:element name="fechaVencimiento" type="xs:string" minOccurs="0"/>
+<xs:element name="fraccionado" type="xs:int"/>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="precioUnitarioCompra" type="xs:double"/>
+<xs:element name="precioUnitarioVenta" type="xs:double"/>
+<xs:element name="primerCantidadInicial" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="persistirProductosDeSucursalResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="actualizarProducto">
+<xs:sequence>
+<xs:element name="arg0" type="tns:datosProducto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="actualizarProductoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenerProductosSinStockPorProveedor">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenerProductosSinStockPorProveedorResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="procesarParaAgregar">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+<xs:element name="arg2" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="procesarParaAgregarResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="verificarFechasVecimiento">
+<xs:sequence>
+<xs:element name="arg0" type="tns:producto" minOccurs="0"/>
+<xs:element name="arg1" type="xs:dateTime" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="producto">
+<xs:sequence>
+<xs:element name="cantidadIngresada" type="xs:int"/>
+<xs:element name="cantidadInicial" type="xs:int"/>
+<xs:element name="cantidadTotalActual" type="xs:int"/>
+<xs:element name="codigoBarra" type="xs:string" minOccurs="0"/>
+<xs:element name="compra" type="tns:compraProducto" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="descripcion" type="xs:string" minOccurs="0"/>
+<xs:element name="detalleCompra" type="xs:string" minOccurs="0"/>
+<xs:element name="detalleProducto" type="xs:string" minOccurs="0"/>
+<xs:element name="detalleVenta" type="xs:string" minOccurs="0"/>
+<xs:element name="detallepresupuestosList" type="tns:detallePresupuesto" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="fechaCantidadIngresada" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="fechaIngresoInicial" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="fechaUltimaActualizacion" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="fechaUltimaCompra" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="fechaUltimaVenta" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="fechaUltimoIngreso" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="fechaVencimiento" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="fraccionado" type="xs:int"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="imagenProductoList" type="tns:imagenProducto" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="listaDetalleVentaSucursal" type="tns:detalleVentaSucursal" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="personaFK" type="tns:persona" minOccurs="0"/>
+<xs:element name="porcentajeCompra" type="xs:double"/>
+<xs:element name="porcentajeVenta" type="xs:double"/>
+<xs:element name="precioUnitarioCompra" type="xs:decimal" minOccurs="0"/>
+<xs:element name="precioUnitarioVenta" type="xs:decimal" minOccurs="0"/>
+<xs:element name="proveedorFK" type="tns:proveedor" minOccurs="0"/>
+<xs:element name="stockProductoList" type="tns:stockProducto" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="sucursalFK" type="tns:sucursal" minOccurs="0"/>
+<xs:element name="venta" type="tns:ventaProducto" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="compraProducto">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="packFK" type="tns:packProducto" minOccurs="0"/>
+<xs:element name="porcentaje" type="xs:double"/>
+<xs:element name="precio" type="xs:decimal" minOccurs="0"/>
+<xs:element name="presentacion" type="xs:int" minOccurs="0"/>
+<xs:element name="producto" type="tns:producto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="packProducto">
+<xs:sequence>
+<xs:element name="compra" type="tns:compraProducto" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="descripcion" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="porcentajedescripcion" type="xs:string" minOccurs="0"/>
+<xs:element name="venta" type="tns:ventaProducto" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ventaProducto">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="packFK" type="tns:packProducto" minOccurs="0"/>
+<xs:element name="porcentaje" type="xs:double"/>
+<xs:element name="precio" type="xs:decimal" minOccurs="0"/>
+<xs:element name="presentacion" type="xs:int" minOccurs="0"/>
+<xs:element name="productoFK" type="tns:producto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="detallePresupuesto">
+<xs:sequence>
+<xs:element name="cantidad" type="xs:int"/>
+<xs:element name="codigo" type="xs:string" minOccurs="0"/>
+<xs:element name="descripcion" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="idPack" type="xs:long"/>
+<xs:element name="idVentaProducto" type="xs:long"/>
+<xs:element name="nombrePack" type="xs:string" minOccurs="0"/>
+<xs:element name="precio" type="xs:double"/>
+<xs:element name="presentacion" type="xs:int"/>
+<xs:element name="presupuesto" type="tns:presupuesto" minOccurs="0"/>
+<xs:element name="producto" type="tns:producto" minOccurs="0"/>
+<xs:element name="subtotal" type="xs:decimal" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="presupuesto">
+<xs:sequence>
+<xs:element name="apellido" type="xs:string" minOccurs="0"/>
+<xs:element name="cantidad" type="xs:int" minOccurs="0"/>
+<xs:element name="descuentoPesos" type="xs:decimal" minOccurs="0"/>
+<xs:element name="detallepresupuestosList" type="tns:detallePresupuesto" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="fechaVenta" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="idUsuarioExpidioVenta" type="xs:long"/>
+<xs:element name="nombre" type="xs:string" minOccurs="0"/>
+<xs:element name="porcentajeDescuento" type="xs:decimal" minOccurs="0"/>
+<xs:element name="porcentajeRecargo" type="xs:decimal" minOccurs="0"/>
+<xs:element name="recargoPesos" type="xs:decimal" minOccurs="0"/>
+<xs:element name="sucursal" type="tns:sucursal" minOccurs="0"/>
+<xs:element name="totalAPagar" type="xs:decimal" minOccurs="0"/>
+<xs:element name="totalDescuento" type="xs:decimal" minOccurs="0"/>
+<xs:element name="totalGeneral" type="xs:decimal" minOccurs="0"/>
+<xs:element name="totalRecargo" type="xs:decimal" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sucursal">
+<xs:sequence>
+<xs:element name="descripcion" type="xs:string" minOccurs="0"/>
+<xs:element name="fechaUltimaCompra" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="fechaUltimaVenta" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="nombre" type="xs:string" minOccurs="0"/>
+<xs:element name="presupuestoList" type="tns:presupuesto" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="productoList" type="tns:producto" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="ventaSucursalList" type="tns:ventaSucursal" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ventaSucursal">
+<xs:sequence>
+<xs:element name="anulado" type="xs:int"/>
+<xs:element name="apellido" type="xs:string" minOccurs="0"/>
+<xs:element name="caja" type="tns:cajaEntradaSalida" minOccurs="0"/>
+<xs:element name="cajaFK" type="tns:cajaEntradaSalida" minOccurs="0"/>
+<xs:element name="cantidad" type="xs:int" minOccurs="0"/>
+<xs:element name="descuentoPesos" type="xs:decimal" minOccurs="0"/>
+<xs:element name="fechaVenta" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="historicoVentaSucursal" type="tns:historicoVentaSucursal" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="horaVenta" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="idUsuarioExpidioVenta" type="xs:long"/>
+<xs:element name="listaDetalleVentaSucursal" type="tns:detalleVentaSucursal" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="nombre" type="xs:string" minOccurs="0"/>
+<xs:element name="persona" type="tns:persona" minOccurs="0"/>
+<xs:element name="porcentajeDescuento" type="xs:decimal" minOccurs="0"/>
+<xs:element name="porcentajeRecargo" type="xs:decimal" minOccurs="0"/>
+<xs:element name="recargoPesos" type="xs:decimal" minOccurs="0"/>
+<xs:element name="sucursalFK" type="tns:sucursal" minOccurs="0"/>
+<xs:element name="totalAPagar" type="xs:decimal" minOccurs="0"/>
+<xs:element name="totalDescuento" type="xs:decimal" minOccurs="0"/>
+<xs:element name="totalGeneral" type="xs:decimal" minOccurs="0"/>
+<xs:element name="totalRecargo" type="xs:decimal" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cajaEntradaSalida">
+<xs:sequence>
+<xs:element name="detalle" type="xs:string" minOccurs="0"/>
+<xs:element name="enefectivo" type="xs:unsignedShort" minOccurs="0"/>
+<xs:element name="entrada" type="xs:decimal" minOccurs="0"/>
+<xs:element name="entradaTarjeta" type="xs:decimal" minOccurs="0"/>
+<xs:element name="fecha" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="hora" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="idPersona" type="xs:int" minOccurs="0"/>
+<xs:element name="numerocupon" type="xs:string" minOccurs="0"/>
+<xs:element name="salida" type="xs:decimal" minOccurs="0"/>
+<xs:element name="ventaSucursal" type="tns:ventaSucursal" minOccurs="0"/>
+<xs:element name="ventasEfectivo" type="xs:decimal" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="historicoVentaSucursal">
+<xs:sequence>
+<xs:element name="descuentoPesos" type="xs:decimal" minOccurs="0"/>
+<xs:element name="fechaVenta" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="porcentajeDescuento" type="xs:decimal" minOccurs="0"/>
+<xs:element name="porcentajeRecargo" type="xs:decimal" minOccurs="0"/>
+<xs:element name="recargoPesos" type="xs:decimal" minOccurs="0"/>
+<xs:element name="totalVenta" type="xs:decimal" minOccurs="0"/>
+<xs:element name="ventaSucursal" type="tns:ventaSucursal" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="detalleVentaSucursal">
+<xs:sequence>
+<xs:element name="cantidad" type="xs:int"/>
+<xs:element name="codigo" type="xs:string" minOccurs="0"/>
+<xs:element name="descripcion" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="idPack" type="xs:long"/>
+<xs:element name="idVentaProducto" type="xs:long"/>
+<xs:element name="nombrePack" type="xs:string" minOccurs="0"/>
+<xs:element name="precio" type="xs:double"/>
+<xs:element name="presentacion" type="xs:int"/>
+<xs:element name="producto" type="tns:producto" minOccurs="0"/>
+<xs:element name="subtotal" type="xs:decimal" minOccurs="0"/>
+<xs:element name="ventaSucursal" type="tns:ventaSucursal" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="persona">
+<xs:sequence>
+<xs:element name="apellido" type="xs:string" minOccurs="0"/>
+<xs:element name="clientePerefencial" type="xs:unsignedShort"/>
+<xs:element name="cuil" type="xs:long"/>
+<xs:element name="detalles" type="xs:string" minOccurs="0"/>
+<xs:element name="dni" type="xs:long"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="estado" type="xs:unsignedShort"/>
+<xs:element name="fechaCarga" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="fechaUltimaCompraCliente" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="genero" type="tns:genero" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="keyPassword" type="xs:string" minOccurs="0"/>
+<xs:element name="listaPersonaTelefono" type="tns:personaTelefono" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="login" type="xs:string" minOccurs="0"/>
+<xs:element name="nombre" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+<xs:element name="perefencial" type="xs:unsignedShort"/>
+<xs:element name="perfil" type="tns:perfilUsuario" minOccurs="0"/>
+<xs:element name="producto" type="tns:producto" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="puntosClientePrefencial" type="xs:int" minOccurs="0"/>
+<xs:element name="rol" type="tns:rolPersona" minOccurs="0"/>
+<xs:element name="tipoDocumento" type="tns:tipoDocumento" minOccurs="0"/>
+<xs:element name="tiposPersona" type="tns:tipoPersona" minOccurs="0"/>
+<xs:element name="ventaSucursal" type="tns:ventaSucursal" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="personaTelefono">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="persona" type="tns:persona" minOccurs="0"/>
+<xs:element name="telefono" type="tns:telefono" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="telefono">
+<xs:sequence>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="numero" type="xs:long"/>
+<xs:element name="prefijo" type="xs:long"/>
+<xs:element name="telefonoPersona" type="tns:personaTelefono" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="perfilUsuario">
+<xs:sequence>
+<xs:element name="codigoPerfil" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="modulo" type="tns:moduloUsuario" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="nombrePerfil" type="xs:string" minOccurs="0"/>
+<xs:element name="perfilPersona" type="tns:persona" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="moduloUsuario">
+<xs:sequence>
+<xs:element name="codigoModulo" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="nombreModulo" type="xs:string" minOccurs="0"/>
+<xs:element name="perfilModulo" type="tns:perfilUsuario" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="imagenProducto">
+<xs:sequence>
+<xs:element name="extension" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="magnitud" type="xs:string" minOccurs="0"/>
+<xs:element name="nombreImagen" type="xs:string" minOccurs="0"/>
+<xs:element name="pathImagenEnDisco" type="xs:string" minOccurs="0"/>
+<xs:element name="productoFK" type="tns:producto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="proveedor">
+<xs:sequence>
+<xs:element name="detalles" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="nombre" type="xs:string" minOccurs="0"/>
+<xs:element name="pedido" type="tns:pedido" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="producto" type="tns:producto" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="pedido">
+<xs:sequence>
+<xs:element name="cantidad" type="xs:int" minOccurs="0"/>
+<xs:element name="descuentoPesos" type="xs:decimal" minOccurs="0"/>
+<xs:element name="detallePedidoList" type="tns:detallePedido" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="fechaVenta" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="idUsuarioExpidioPedido" type="xs:long"/>
+<xs:element name="porcentajeDescuento" type="xs:decimal" minOccurs="0"/>
+<xs:element name="porcentajeRecargo" type="xs:decimal" minOccurs="0"/>
+<xs:element name="proveedorFK" type="tns:proveedor" minOccurs="0"/>
+<xs:element name="recargoPesos" type="xs:decimal" minOccurs="0"/>
+<xs:element name="sucursalFK" type="tns:sucursal" minOccurs="0"/>
+<xs:element name="totalAPagar" type="xs:decimal" minOccurs="0"/>
+<xs:element name="totalDescuento" type="xs:decimal" minOccurs="0"/>
+<xs:element name="totalGeneral" type="xs:decimal" minOccurs="0"/>
+<xs:element name="totalRecargo" type="xs:decimal" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="detallePedido">
+<xs:sequence>
+<xs:element name="cantidad" type="xs:int"/>
+<xs:element name="codigo" type="xs:string" minOccurs="0"/>
+<xs:element name="descripcion" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="idPack" type="xs:long"/>
+<xs:element name="idVentaProducto" type="xs:long"/>
+<xs:element name="nombrePack" type="xs:string" minOccurs="0"/>
+<xs:element name="pedido" type="tns:pedido" minOccurs="0"/>
+<xs:element name="precio" type="xs:double"/>
+<xs:element name="presentacion" type="xs:int"/>
+<xs:element name="producto" type="tns:producto" minOccurs="0"/>
+<xs:element name="subtotal" type="xs:decimal" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="stockProducto">
+<xs:sequence>
+<xs:element name="cantidadActual" type="xs:int"/>
+<xs:element name="cantidadAgregada" type="xs:int"/>
+<xs:element name="cantidadInicial" type="xs:int"/>
+<xs:element name="detalle" type="xs:string" minOccurs="0"/>
+<xs:element name="fechaAgregadoProducto" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="porcentajeCompra" type="xs:double"/>
+<xs:element name="porcentajeVenta" type="xs:double"/>
+<xs:element name="precioUnitarioCompra" type="xs:decimal" minOccurs="0"/>
+<xs:element name="precioUnitarioVenta" type="xs:decimal" minOccurs="0"/>
+<xs:element name="producto" type="tns:producto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="verificarFechasVecimientoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="persistirListaCompraProducto">
+<xs:sequence>
+<xs:element name="arg0" type="tns:producto" minOccurs="0"/>
+<xs:element name="arg1" type="tns:datosProducto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="persistirListaCompraProductoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenerProductosFraccionadosSinStockPorProveedor">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenerProductosFraccionadosSinStockPorProveedorResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="calcularPorcentajeVentaProductosProveedor">
+<xs:sequence>
+<xs:element name="arg0" type="tns:producto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="calcularPorcentajeVentaProductosProveedorResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="xmlProducto">
+<xs:sequence>
+<xs:element name="arg0" type="tns:producto" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="xmlProductoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenerProductosConPrecioDeVenta">
+<xs:sequence>
+<xs:element name="arg0" type="tns:stringBuilder" minOccurs="0"/>
+<xs:element name="arg1" type="tns:producto" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="arg2" type="tns:ventaProducto" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="arg3" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="stringBuilder" final="extension restriction">
+<xs:complexContent>
+<xs:extension base="tns:abstractStringBuilder">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="abstractStringBuilder" abstract="true">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="obtenerProductosConPrecioDeVentaResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="seleccionarProductosAVencer">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="seleccionarProductosAVencerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="seleccionarProductosSinStock">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="seleccionarProductosSinStockResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="persistirListaStockProducto">
+<xs:sequence>
+<xs:element name="arg0" type="tns:producto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="persistirListaStockProductoResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="calcularPorcentajeCompra">
+<xs:sequence>
+<xs:element name="arg0" type="tns:producto" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="calcularPorcentajeCompraResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="agregarColaCompraProductoyColaVentaProducto">
+<xs:sequence>
+<xs:element name="arg0" type="tns:producto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="agregarColaCompraProductoyColaVentaProductoResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getCompraProducto">
+<xs:sequence>
+<xs:element name="arg0" type="tns:stringBuilder" minOccurs="0"/>
+<xs:element name="arg1" type="tns:producto" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="arg2" type="tns:compraProducto" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="arg3" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getCompraProductoResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="persistirListaProductosProveedor">
+<xs:sequence>
+<xs:element name="arg0" type="tns:datosProducto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="persistirListaProductosProveedorResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="persistirListaVentaProducto">
+<xs:sequence>
+<xs:element name="arg0" type="tns:producto" minOccurs="0"/>
+<xs:element name="arg1" type="tns:datosProducto" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="persistirListaVentaProductoResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="calcularPorcentajeVenta">
+<xs:sequence>
+<xs:element name="arg0" type="tns:producto" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="calcularPorcentajeVentaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="genero">
+<xs:restriction base="xs:string">
+<xs:enumeration value="FEMENINO"/>
+<xs:enumeration value="MASCULINO"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="rolPersona">
+<xs:restriction base="xs:string">
+<xs:enumeration value="ADMINISTRADOR"/>
+<xs:enumeration value="INVITADO"/>
+<xs:enumeration value="OPERADOR"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="tipoDocumento">
+<xs:restriction base="xs:string">
+<xs:enumeration value="DNI"/>
+<xs:enumeration value="LC"/>
+<xs:enumeration value="LE"/>
+<xs:enumeration value="PASAPORTE"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="tipoPersona">
+<xs:restriction base="xs:string">
+<xs:enumeration value="JEFE"/>
+<xs:enumeration value="EMPLEADO"/>
+<xs:enumeration value="CLIENTE"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8080/EJBVentaSucursalService/EJBVentaSucursal?WSDL" uri="wsdl/localhost_8080/EJBVentaSucursalService/EJBVentaSucursal.wsdl"/>
+    <system systemId="http://localhost:8080/EJBVentaSucursalService/EJBVentaSucursal?xsd=1" uri="wsdl/localhost_8080/EJBVentaSucursalService/EJBVentaSucursal.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/ServiceProducto/wsProducto?WSDL" uri="wsdl/localhost_8080/ServiceProducto/wsProducto.wsdl"/>
+    <system systemId="http://localhost:8080/ServiceProducto/wsProducto?xsd=1" uri="wsdl/localhost_8080/ServiceProducto/wsProducto.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/EJBProveedorBeanService/EJBProveedorBean?WSDL" uri="wsdl/localhost_8080/EJBProveedorBeanService/EJBProveedorBean.wsdl"/>
+    <system systemId="http://localhost:8080/EJBProveedorBeanService/EJBProveedorBean?xsd=1" uri="wsdl/localhost_8080/EJBProveedorBeanService/EJBProveedorBean.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/EJBPresupuestoBeanService/EJBPresupuestoBean?WSDL" uri="wsdl/localhost_8080/EJBPresupuestoBeanService/EJBPresupuestoBean.wsdl"/>
+    <system systemId="http://localhost:8080/EJBPresupuestoBeanService/EJBPresupuestoBean?xsd=1" uri="wsdl/localhost_8080/EJBPresupuestoBeanService/EJBPresupuestoBean.xsd_1.xsd"/>
+</catalog>

@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://ejb.dulcejosefina.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ejb.dulcejosefina.com/">
+
+<xs:element name="Exception" type="tns:Exception"/>
+
+<xs:element name="anularVenta" type="tns:anularVenta"/>
+
+<xs:element name="anularVentaResponse" type="tns:anularVentaResponse"/>
+
+<xs:element name="crearVenta" type="tns:crearVenta"/>
+
+<xs:element name="crearVentaResponse" type="tns:crearVentaResponse"/>
+
+<xs:element name="eliminarProductoDeUnaVenta" type="tns:eliminarProductoDeUnaVenta"/>
+
+<xs:element name="eliminarProductoDeUnaVentaResponse" type="tns:eliminarProductoDeUnaVentaResponse"/>
+
+<xs:element name="getRecordCountVentas" type="tns:getRecordCountVentas"/>
+
+<xs:element name="getRecordCountVentasResponse" type="tns:getRecordCountVentasResponse"/>
+
+<xs:element name="getSalesCanceledTodayAndPrevius" type="tns:getSalesCanceledTodayAndPrevius"/>
+
+<xs:element name="getSalesCanceledTodayAndPreviusResponse" type="tns:getSalesCanceledTodayAndPreviusResponse"/>
+
+<xs:element name="selectAllVentas" type="tns:selectAllVentas"/>
+
+<xs:element name="selectAllVentasResponse" type="tns:selectAllVentasResponse"/>
+
+<xs:element name="selectUnaVenta" type="tns:selectUnaVenta"/>
+
+<xs:element name="selectUnaVentaResponse" type="tns:selectUnaVentaResponse"/>
+
+<xs:element name="selectVenta" type="tns:selectVenta"/>
+
+<xs:element name="selectVentaResponse" type="tns:selectVentaResponse"/>
+
+<xs:element name="selectVentasDeUnDiaDeterminado" type="tns:selectVentasDeUnDiaDeterminado"/>
+
+<xs:element name="selectVentasDeUnDiaDeterminadoResponse" type="tns:selectVentasDeUnDiaDeterminadoResponse"/>
+
+<xs:element name="selectVentasHastaElMomento" type="tns:selectVentasHastaElMomento"/>
+
+<xs:element name="selectVentasHastaElMomentoResponse" type="tns:selectVentasHastaElMomentoResponse"/>
+
+<xs:element name="sumaTotalVentasMensual" type="tns:sumaTotalVentasMensual"/>
+
+<xs:element name="sumaTotalVentasMensualResponse" type="tns:sumaTotalVentasMensualResponse"/>
+
+<xs:element name="verVentasPaginadas" type="tns:verVentasPaginadas"/>
+
+<xs:element name="verVentasPaginadasResponse" type="tns:verVentasPaginadasResponse"/>
+
+<xs:complexType name="selectAllVentas">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="selectAllVentasResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="selectVentasDeUnDiaDeterminado">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="selectVentasDeUnDiaDeterminadoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getRecordCountVentas">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getRecordCountVentasResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="selectVentasHastaElMomento">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="selectVentasHastaElMomentoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sumaTotalVentasMensual">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sumaTotalVentasMensualResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="selectVenta">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long"/>
+<xs:element name="arg1" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="selectVentaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="crearVenta">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="crearVentaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="eliminarProductoDeUnaVenta">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long"/>
+<xs:element name="arg1" type="xs:long"/>
+<xs:element name="arg2" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="eliminarProductoDeUnaVentaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getSalesCanceledTodayAndPrevius">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getSalesCanceledTodayAndPreviusResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="Exception">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="verVentasPaginadas">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int"/>
+<xs:element name="arg1" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="verVentasPaginadasResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="anularVenta">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="anularVentaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="selectUnaVenta">
+<xs:sequence>
+<xs:element name="arg0" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="selectUnaVentaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
